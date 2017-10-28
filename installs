@@ -1,0 +1,134 @@
+composer require backpack/base
+composer require backpack/generators --dev
+composer require laracasts/generators:dev-master --dev
+
+# publish configs, langs, views and AdminLTE files
+php artisan vendor:publish --provider="Backpack\Base\BaseServiceProvider"
+
+# publish config for notifications - prologue/alerts
+php artisan vendor:publish --provider="Prologue\Alerts\AlertsServiceProvider"
+
+# generate users table (using Laravel's default migrations)
+php artisan migrate
+
+[Change configuration values in config/backpack/base.php to make the admin panel your own.]
+
+composer require backpack/crud
+
+mkdir public/uploads #create a public/uploads directory
+php artisan elfinder:publish #published elfinder assets
+php artisan vendor:publish --provider="Backpack\CRUD\CrudServiceProvider" --tag="public" #publish CRUD assets
+php artisan vendor:publish --provider="Backpack\CRUD\CrudServiceProvider" --tag="lang" #publish CRUD lang files
+php artisan vendor:publish --provider="Backpack\CRUD\CrudServiceProvider" --tag="config" #publish CRUD and custom elfinder config files
+php artisan vendor:publish --provider="Backpack\CRUD\CrudServiceProvider" --tag="elfinder" #publish custom elFinder views
+
+Define an 'uploads' disk. In your config/filesystems.php add this disk:
+'uploads' => [
+    'driver' => 'local',
+    'root' => public_path('uploads'),
+],
+
+
+[Optional] You can now add the file manager to the menu, in resources/views/vendor/backpack/base/inc/sidebar.blade.php or menu.blade.php:
+<li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/elfinder') }}"><i class="fa fa-files-o"></i> <span>File manager</span></a></li>
+
+
+
+composer require backpack/langfilemanager
+
+php artisan migrate --path=vendor/backpack/langfilemanager/src/database/migrations
+php artisan db:seed --class="Backpack\LangFileManager\database\seeds\LanguageTableSeeder"
+php artisan vendor:publish --provider="Backpack\LangFileManager\LangFileManagerServiceProvider" --tag="config" #publish the config file
+php artisan vendor:publish --provider="Backpack\LangFileManager\LangFileManagerServiceProvider" --tag="lang" #publish the lang files
+
+Optional] You can now add it to the menu, in resources/views/vendor/backpack/base/inc/sidebar.blade.php or menu.blade.php:
+<li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/language') }}"><i class="fa fa-flag-o"></i> <span>Languages</span></a></li>
+<li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/language/texts') }}"><i class="fa fa-language"></i> <span>Language Files</span></a></li>
+
+
+
+composer require backpack/backupmanager
+
+php artisan vendor:publish --provider="Backpack\BackupManager\BackupManagerServiceProvider"
+
+Add a new "disk" to config/filesystems.php:
+
+// used for Backpack/BackupManager
+'backups' => [
+    'driver' => 'local',
+    'root'   => storage_path('backups'), // that's where your backups are stored by default: storage/backups
+],
+
+[optional] Add a menu item for it in resources/views/vendor/backpack/base/inc/sidebar.blade.php or menu.blade.php:
+
+<li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/backup') }}"><i class="fa fa-hdd-o"></i> <span>Backups</span></a></li>
+
+5) [optional] Modify your backup options in config/laravel-backup.php
+
+6) [optional] Instruct Laravel to run the backups automatically in your console kernel:
+
+// app/Console/Kernel.php
+
+protected function schedule(Schedule $schedule)
+{
+   $schedule->command('backup:clean')->daily()->at('04:00');
+   $schedule->command('backup:run')->daily()->at('05:00');
+}
+7) [optional] If you need to change the path to the mysql_dump command, you can do that in your config/database.php file. For MAMP on Mac OS, add these to your mysql connection:
+
+            'dump_command_path' => '/Applications/MAMP/Library/bin/', // only the path, so without 'mysqldump' or 'pg_dump'
+            'dump_command_timeout' => 60 * 5, // 5 minute timeout
+            'dump_using_single_transaction' => true,
+
+
+
+
+
+composer require backpack/logmanager
+
+Add a "storage" filesystem in config/filesystems.php:
+
+// used for Backpack/LogManager
+'storage' => [
+    'driver' => 'local',
+    'root'   => storage_path(),
+],
+
+[Optional] Configure Laravel to create a new log file for every day, in your .ENV file, if it's not already. Otherwise there will only be one file at all times.
+
+    APP_LOG=daily
+or directly in your config/app.php file:
+
+    'log' => env('APP_LOG', 'daily'),
+4) [optional] Add a menu item for it in resources/views/vendor/backpack/base/inc/sidebar.blade.php or menu.blade.php:
+
+<li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/log') }}"><i class="fa fa-terminal"></i> <span>Logs</span></a></li>
+
+
+
+
+composer require backpack/settings
+
+php artisan vendor:publish --provider="Backpack\Settings\SettingsServiceProvider"
+php artisan migrate
+php artisan db:seed --class="Backpack\Settings\database\seeds\SettingsTableSeeder"
+
+<li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/setting') }}"><i class="fa fa-cog"></i> <span>Settings</span></a></li>
+
+
+
+composer require backpack/pagemanager
+
+php artisan vendor:publish --provider="Backpack\PageManager\PageManagerServiceProvider"
+php artisan migrate
+
+<li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/page') }}"><i class="fa fa-file-o"></i> <span>Pages</span></a></li>
+
+
+
+
+https://github.com/Laravel-Backpack/PermissionManager#install
+
+https://github.com/Laravel-Backpack/MenuCRUD
+
+https://github.com/Laravel-Backpack/NewsCRUD
