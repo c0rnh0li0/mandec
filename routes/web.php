@@ -20,8 +20,10 @@ Route::get('{page}/{subs?}', ['uses' => 'PageController@index'])
     ->where(['page' => '^((?!admin).)*$', 'subs' => '.*']);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' => 'Admin'], function () {
-    // Backpack\NewsCRUD
-    //CRUD::resource('article', 'ArticleCrudController');
+
+    CRUD::resource('widget', 'WidgetCrudController');
+    CRUD::resource('template_section', 'TemplateSectionCrudController');
+    CRUD::resource('template', 'TemplateCrudController');
     //CRUD::resource('category', 'CategoryCrudController');
     //CRUD::resource('tag', 'TagCrudController');
 });

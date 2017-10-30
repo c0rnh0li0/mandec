@@ -181,6 +181,8 @@ return [
         Backpack\PermissionManager\PermissionManagerServiceProvider::class,
         Backpack\MenuCRUD\MenuCRUDServiceProvider::class,
         Backpack\NewsCRUD\NewsCRUDServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+
     ],
 
     /*

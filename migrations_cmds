@@ -1,0 +1,5 @@
+php artisan make:migration:schema create_widgets_table --schema="name:string:unique, class:string, created_by:integer:foreign, updated_by:integer:foreign" --model=1
+php artisan make:migration:schema create_templates_table --schema="name:string:unique, created_by:integer:foreign, updated_by:integer:foreign" --model=1
+php artisan make:migration:schema create_template_sections_table --schema="name:string, template_id:integer:foreign, created_by:integer:foreign, updated_by:integer:foreign" --model=1
+php artisan make:migration:pivot pages template_sections
+php artisan make:migration:pivot widgets template_sections

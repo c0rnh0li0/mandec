@@ -33,6 +33,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * User widgets
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function widgets() {
+        return $this->hasMany('App\Models\Widget');
+    }
+
+    /**
      * Send the password reset notification.
      *
      * @param  string  $token
