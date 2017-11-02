@@ -5,25 +5,33 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\WidgetRequest as StoreRequest;
-use App\Http\Requests\WidgetRequest as UpdateRequest;
+use App\Http\Requests\PageCategoryRequest as StoreRequest;
+use App\Http\Requests\PageCategoryRequest as UpdateRequest;
 
-class WidgetCrudController extends CrudController
+class PageCategoryCrudController extends CrudController
 {
     public function setup()
     {
-        $this->crud->setModel('App\Models\Widget');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/widget');
-        $this->crud->setEntityNameStrings('widget', 'widgets');
+        $this->crud->setModel('App\Models\PageCategory');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/page-category');
+        $this->crud->setEntityNameStrings('page-category', 'page_categories');
 
         $this->crud->addColumns([
             [
                 'name' => 'name',
-                'label' => "Widget name"
+                'label' => "Category name"
             ],
             [
-                'name' => 'class',
-                'label' => "Widget class"
+                'name' => 'slug',
+                'label' => "Slug"
+            ],
+            [
+                'label' => 'Parent',
+                'type' => 'select',
+                'name' => 'parent_id',
+                'entity' => 'parent',
+                'attribute' => 'name',
+                'model' => "App\Models\PageCategory",
             ],
             [
                 'label' => 'Created by',
@@ -46,11 +54,19 @@ class WidgetCrudController extends CrudController
         $this->crud->addFields([
             [
                 'name' => 'name',
-                'label' => 'Widget name'
+                'label' => "Category name"
             ],
             [
-                'name' => 'class',
-                'label' => 'Class name'
+                'name' => 'slug',
+                'label' => "Slug"
+            ],
+            [
+                'label' => 'Parent',
+                'type' => 'select',
+                'name' => 'parent_id',
+                'entity' => 'parent',
+                'attribute' => 'name',
+                'model' => "App\Models\PageCategory",
             ],
         ], 'update/create/both');
 

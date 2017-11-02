@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     CRUD::resource('widget', 'WidgetCrudController');
     CRUD::resource('template_section', 'TemplateSectionCrudController');
     CRUD::resource('template', 'TemplateCrudController');
-    //CRUD::resource('category', 'CategoryCrudController');
+    CRUD::resource('page-category', 'PageCategoryCrudController');
+    CRUD::resource('page', 'ExtendedPageCrudController');
     //CRUD::resource('tag', 'TagCrudController');
 });

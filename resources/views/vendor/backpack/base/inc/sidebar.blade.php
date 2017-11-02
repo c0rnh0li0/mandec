@@ -29,7 +29,8 @@
               <li><a href="{{ url('admin/template') }}"><i class="fa fa-list"></i> <span>Templates</span></a></li>
               <li><a href="{{ url('admin/widget') }}"><i class="fa fa-list"></i> <span>Widgets</span></a></li>
               <li><a href="{{ url('admin/menu-item') }}"><i class="fa fa-list"></i> <span>Menu</span></a></li>
-              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/page') }}"><i class="fa fa-file-o"></i> <span>Pages</span></a></li>
+              <li><a href="{{ url('admin/page-category') }}"><i class="fa fa-newspaper-o"></i> <span>Page Categories</span></a></li>
+              <li><a href="{{ url('admin/page') }}"><i class="fa fa-file-o"></i> <span>Pages</span></a></li>
               <li><a href="{{ url('admin/article') }}"><i class="fa fa-newspaper-o"></i> <span>Articles</span></a></li>
               <li><a href="{{ url('admin/category') }}"><i class="fa fa-list"></i> <span>Categories</span></a></li>
               <li><a href="{{ url('admin/tag') }}"><i class="fa fa-tag"></i> <span>Tags</span></a></li>

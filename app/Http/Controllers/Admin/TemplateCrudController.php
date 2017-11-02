@@ -52,47 +52,7 @@ class TemplateCrudController extends CrudController
             ],
         ], 'update/create/both');
 
-        $this->crud->addFields([
-            [
-                'name' => 'created_by_user',
-                'label' => 'Created by',
-                'readonly' => 'readonly',
-                'value' => auth()->user()->name
-            ],
-            [
-                'name' => 'updated_by',
-                'type' => 'hidden',
-                'readonly' => 'readonly',
-                'value' => auth()->user()->id
-            ],
-            [
-                'name' => 'created_by',
-                'type' => 'hidden',
-                'readonly' => 'readonly',
-                'value' => auth()->user()->id
-            ],
-        ], 'create');
-
-        $this->crud->addFields([
-            [
-                'name' => 'created_by_user',
-                'label' => 'Created by',
-                'readonly' => 'readonly',
-                'value' => auth()->user()->name
-            ],
-            [
-                'name' => 'updated_by_user',
-                'label' => 'Updated by',
-                'readonly' => 'readonly',
-                'value' => auth()->user()->name,
-            ],
-            [
-                'name' => 'updated_by',
-                'hidden' => 'hidden',
-                'readonly' => 'readonly',
-                'value' => auth()->user()->id
-            ],
-        ], 'update');
+        $this->createAuditFields();
 
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
@@ -161,6 +121,50 @@ class TemplateCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+    }
+
+    private function createAuditFields() {
+        $this->crud->addFields([
+            [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
+            [
+                'name' => 'updated_by',
+                'type' => 'hidden',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->id
+            ],
+            [
+                'name' => 'created_by',
+                'type' => 'hidden',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->id
+            ],
+        ], 'create');
+
+        $this->crud->addFields([
+            [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
+            [
+                'name' => 'updated_by_user',
+                'label' => 'Updated by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name,
+            ],
+            [
+                'name' => 'updated_by',
+                'type' => 'hidden',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->id
+            ],
+        ], 'update');
     }
 
     public function store(StoreRequest $request)
