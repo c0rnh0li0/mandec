@@ -15,7 +15,9 @@ class ExtendedPage extends Page
     protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['category_id', 'created_by', 'updated_by'];
+    //protected $fillable = array_merge(['category_id', 'template_id', 'created_by', 'updated_by']);
+
+    protected $fillable = ['name', 'title', 'slug', 'content', 'extras', 'category_id', 'template_id', 'created_by', 'updated_by'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -44,6 +46,16 @@ class ExtendedPage extends Page
      */
     public function category()
     {
-        return $this->belongsTo('App\Models\PageCategory', 'parent_id');
+        return $this->belongsTo('App\Models\PageCategory', 'category_id');
+    }
+
+    /**
+     * Template of the page
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function template()
+    {
+        return $this->belongsTo('App\Models\Template');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class ExtendedPageRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class ControllerPermissionRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class ExtendedPageRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
      */
     public function rules()
     {
-        $id = \Request::get('id');
-
         return [
-            'name' => 'required|min:2|max:255',
-            'title' => 'required|min:2|max:255',
-            'slug' => 'unique:pages,slug'.($id ? ','.$id : ''),
-            'template_id' => 'required'
+            // 'name' => 'required|min:5|max:255'
         ];
     }
 

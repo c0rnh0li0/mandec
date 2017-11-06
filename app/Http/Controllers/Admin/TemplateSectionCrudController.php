@@ -99,6 +99,32 @@ class TemplateSectionCrudController extends CrudController
         // $this->crud->limit();
     }
 
+    private function createAuditFields() {
+        $this->crud->addFields([
+            [
+                'name' => 'updated_by',
+                'type' => 'hidden',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->id
+            ],
+            [
+                'name' => 'created_by',
+                'type' => 'hidden',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->id
+            ],
+        ], 'create');
+
+        $this->crud->addFields([
+            [
+                'name' => 'updated_by',
+                'type' => 'hidden',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->id
+            ],
+        ], 'update');
+    }
+
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
