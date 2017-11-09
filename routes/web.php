@@ -11,20 +11,20 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 /** CATCH-ALL ROUTE for Backpack/PageManager - needs to be at the end of your routes.php file  **/
-Route::get('{page}/{subs?}', ['uses' => 'PageController@index'])
-    ->where(['page' => '^((?!admin).)*$', 'subs' => '.*']);
+Route::get('{page}/{subs?}', ['uses' => 'PageController@index'])->where(['page' => '^((?!admin).)*$', 'subs' => '.*']);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' => 'Admin'], function () {
-
     CRUD::resource('widget', 'WidgetCrudController');
     CRUD::resource('template_section', 'TemplateSectionCrudController');
     CRUD::resource('template', 'TemplateCrudController');
     CRUD::resource('page-category', 'PageCategoryCrudController');
     CRUD::resource('page', 'ExtendedPageCrudController');
-    //CRUD::resource('tag', 'TagCrudController');
+    CRUD::resource('controller-permission', 'ControllerPermissionCrudController');
 });

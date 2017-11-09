@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Backpack\PageManager\app\Models\Page;
+use App\Models\ExtendedPage;
 use App\Http\Controllers\Controller;
 
 class PageController extends Controller
 {
     public function index($slug)
     {
-        $page = Page::findBySlug($slug);
+        $page = ExtendedPage::findBySlug($slug);
 
         if (!$page)
         {
@@ -19,6 +19,6 @@ class PageController extends Controller
         $this->data['title'] = $page->title;
         $this->data['page'] = $page->withFakes();
 
-        return view('pages.'.$page->template, $this->data);
+        return view('templates.'.$page->template->file, $this->data);
     }
 }
