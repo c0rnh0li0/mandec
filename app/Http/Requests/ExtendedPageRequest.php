@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
+//use App\Http\Requests\Request;
+use Backpack\PageManager\app\Http\Requests\PageRequest;
 
-class ExtendedPageRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class ExtendedPageRequest extends PageRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +23,12 @@ class ExtendedPageRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
      *
      * @return array
      */
-    public function rules()
+    /*public function rules()
     {
-        $id = \Request::get('id');
-
         return [
-            'name' => 'required|min:2|max:255',
-            'title' => 'required|min:2|max:255',
-            'slug' => 'unique:pages,slug'.($id ? ','.$id : ''),
-            'template_id' => 'required'
+            // 'name' => 'required|min:5|max:255'
         ];
-    }
+    }*/
 
     /**
      * Get the validation attributes that apply to the request.

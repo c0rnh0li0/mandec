@@ -76,6 +76,12 @@ class PageCategoryCrudController extends CrudController
     private function createAuditFields() {
         $this->crud->addFields([
             [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
+            [
                 'name' => 'updated_by',
                 'type' => 'hidden',
                 'attributes' => ['readonly' => 'readonly'],
@@ -90,6 +96,18 @@ class PageCategoryCrudController extends CrudController
         ], 'create');
 
         $this->crud->addFields([
+            [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
+            [
+                'name' => 'updated_by_user',
+                'label' => 'Updated by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name,
+            ],
             [
                 'name' => 'updated_by',
                 'type' => 'hidden',

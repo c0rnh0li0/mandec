@@ -5,21 +5,19 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\ExtendedPageRequest as StoreRequest;
-use App\Http\Requests\ExtendedPageRequest as UpdateRequest;
+use App\Http\Requests\ExtendedPageRequest as ExtendedStoreRequest;
+use App\Http\Requests\ExtendedPageRequest as ExtendedUpdateRequest;
 use Backpack\PageManager\app\Http\Controllers\Admin\PageCrudController;
 use Backpack\CRUD\CrudTrait;
 
-class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\CrudController
+class ExtendedPageCrudController extends PageCrudController
 {
     use CrudTrait;
-
     public function setup()
     {
         $this->crud->setModel('App\Models\ExtendedPage');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/page');
         $this->crud->setEntityNameStrings('page', 'pages');
-        //$this->crud->enableAjaxTable();
 
         $this->crud->removeColumns([
             'name',
@@ -32,12 +30,10 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
                 'label' => "Title",
             ],
             [
-                'label' => 'Template',
-                'type' => 'select',
-                'name' => 'template_id',
-                'entity' => 'template',
-                'attribute' => 'name',
-                'model' => "App\Models\Template",
+                'name' => 'template',
+                'label' => trans('backpack::pagemanager.template'),
+                'type' => 'model_function',
+                'function_name' => 'getTemplateName',
             ],
             [
                 'name' => 'slug',
@@ -71,30 +67,6 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
 
         $this->crud->addFields([
             [
-                'name' => 'title',
-                'label' => trans('backpack::pagemanager.page_title'),
-                'type' => 'text',
-                // 'disabled' => 'disabled'
-            ],
-            [
-                'name' => 'slug',
-                'label' => trans('backpack::pagemanager.page_slug'),
-                'type' => 'text',
-                'hint' => trans('backpack::pagemanager.page_slug_hint'),
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-6',
-                ],
-                // 'disabled' => 'disabled'
-            ],
-            [
-                'name' => 'name',
-                'label' => trans('backpack::pagemanager.page_name'),
-                'type' => 'text',
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-6',
-                ],
-            ],
-            [
                 'label' => 'Category',
                 'type' => 'select',
                 'name' => 'category_id',
@@ -102,65 +74,19 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
                 'attribute' => 'name',
                 'model' => "App\Models\PageCategory",
             ],
-            [
-                'label' => 'Template',
-                'type' => 'select',
-                'name' => 'template_id',
-                'entity' => 'template',
-                'attribute' => 'name',
-                'model' => "App\Models\Template",
-            ],
         ], 'update/create/both');
 
-        $this->createMetaFields();
-
         $this->createAuditFields();
-
-        $this->crud->addButtonFromModelFunction('line', 'open', 'getOpenButton', 'beginning');
-    }
-
-    private function createMetaFields() {
-        $this->crud->addFields([
-            [   // CustomHTML
-                'name' => 'content_separator',
-                'type' => 'custom_html',
-                'value' => '<br><h2>'.trans('backpack::pagemanager.content').'</h2><hr>',
-            ],
-            [
-                'name' => 'content',
-                'label' => trans('backpack::pagemanager.content'),
-                'type' => 'wysiwyg',
-                'placeholder' => trans('backpack::pagemanager.content_placeholder'),
-            ],
-            [   // CustomHTML
-                'name' => 'metas_separator',
-                'type' => 'custom_html',
-                'value' => '<br><h2>'.trans('backpack::pagemanager.metas').'</h2><hr>',
-            ],
-            [
-                'name' => 'meta_title',
-                'label' => trans('backpack::pagemanager.meta_title'),
-                'fake' => true,
-                'store_in' => 'extras',
-            ],
-            [
-                'name' => 'meta_description',
-                'label' => trans('backpack::pagemanager.meta_description'),
-                'fake' => true,
-                'store_in' => 'extras',
-            ],
-            [
-                'name' => 'meta_keywords',
-                'type' => 'textarea',
-                'label' => trans('backpack::pagemanager.meta_keywords'),
-                'fake' => true,
-                'store_in' => 'extras',
-            ],
-        ]);
     }
 
     private function createAuditFields() {
         $this->crud->addFields([
+            [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
             [
                 'name' => 'updated_by',
                 'type' => 'hidden',
@@ -177,6 +103,18 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
 
         $this->crud->addFields([
             [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
+            [
+                'name' => 'updated_by_user',
+                'label' => 'Updated by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name,
+            ],
+            [
                 'name' => 'updated_by',
                 'type' => 'hidden',
                 'attributes' => ['readonly' => 'readonly'],
@@ -189,35 +127,100 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
     // Overwrites of CrudController
     // -----------------------------------------------
 
-
     // Overwrites the CrudController create() method to add template usage.
     public function create($template = false)
     {
-        return parent::create();
-    }
+        //$this->addDefaultPageFields($template);
+        //$this->useTemplate($template);
 
-    // Overwrites the CrudController edit() method to add template usage.
-    public function edit($id)
-    {
-        return parent::edit($id);
+        return parent::create($template);
     }
 
     // Overwrites the CrudController store() method to add template usage.
-    public function store(StoreRequest $request)
+    /*public function store(ExtendedStoreRequest $request)
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        //$this->addDefaultPageFields($request->input('template'));
+        //$this->useTemplate($request->input('template'));
+
+        return parent::store($request);
+    }*/
+
+    // Overwrites the CrudController edit() method to add template usage.
+    public function edit($id, $template = false)
+    {
+        // if the template in the GET parameter is missing, figure it out from the db
+        /*if ($template == false) {
+            $model = $this->crud->model;
+            $this->data['entry'] = $model::findOrFail($id);
+            $template = $this->data['entry']->template;
+        }
+
+        $this->addDefaultPageFields($template);
+        $this->useTemplate($template);*/
+
+        return parent::edit($id, $template);
     }
 
-    public function update(UpdateRequest $request)
+    // Overwrites the CrudController update() method to add template usage.
+    /*public function update(ExtendedUpdateRequest $request)
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
-    }
+        //$this->addDefaultPageFields($request->input('template'));
+        //$this->useTemplate($request->input('template'));
+
+        return parent::update($request);
+    }*/
+
+    /**
+     * Add the fields defined for a specific template.
+     *
+     * @param  string $template_name The name of the template that should be used in the current form.
+     */
+
+    /*public function useTemplate($template_name = false)
+    {
+        $templates = $this->getTemplates();
+
+        // set the default template
+        if ($template_name == false) {
+            $template_name = $templates[0]->name;
+        }
+
+        // actually use the template
+        if ($template_name) {
+            $this->{$template_name}();
+        }
+    }*/
+
+    /**
+     * Get all defined templates.
+     */
+    /*public function getTemplates($template_name = false)
+    {
+        $templates_array = [];
+
+        $templates_trait = new \ReflectionClass('App\PageTemplates');
+        $templates = $templates_trait->getMethods(\ReflectionMethod::IS_PRIVATE);
+
+        if (! count($templates)) {
+            abort(503, trans('backpack::pagemanager.template_not_found'));
+        }
+
+        return $templates;
+    }*/
+
+    /**
+     * Get all defined template as an array.
+     *
+     * Used to populate the template dropdown in the create/update forms.
+     */
+    /*public function getTemplatesArray()
+    {
+        $templates = $this->getTemplates();
+
+        foreach ($templates as $template) {
+            $templates_array[$template->name] = $this->crud->makeLabel($template->name);
+        }
+
+        return $templates_array;
+    }*/
 }

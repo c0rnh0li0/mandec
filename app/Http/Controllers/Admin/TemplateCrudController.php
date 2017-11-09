@@ -7,22 +7,9 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TemplateRequest as StoreRequest;
 use App\Http\Requests\TemplateRequest as UpdateRequest;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Config;
 
 class TemplateCrudController extends CrudController
 {
-    public $TemplatesPath;
-    public $TemplatesExtension;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->TemplatesPath = Config::get('view.templates')[0];
-        $this->TemplatesExtension = '.blade.php';
-    }
-
     public function setup()
     {
 
@@ -39,10 +26,6 @@ class TemplateCrudController extends CrudController
             [
                 'name' => 'name',
                 'label' => "Template name"
-            ],
-            [
-                'name' => 'file',
-                'label' => "Template file"
             ],
             [
                 'label' => 'Created by',
@@ -66,13 +49,6 @@ class TemplateCrudController extends CrudController
             [
                 'name' => 'name',
                 'label' => 'Template name'
-            ],
-        ], 'update/create/both');
-
-        $this->crud->addFields([
-            [
-                'name' => 'file',
-                'label' => 'Template file'
             ],
         ], 'update/create/both');
 
@@ -150,6 +126,12 @@ class TemplateCrudController extends CrudController
     private function createAuditFields() {
         $this->crud->addFields([
             [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
+            [
                 'name' => 'updated_by',
                 'type' => 'hidden',
                 'attributes' => ['readonly' => 'readonly'],
@@ -165,6 +147,18 @@ class TemplateCrudController extends CrudController
 
         $this->crud->addFields([
             [
+                'name' => 'created_by_user',
+                'label' => 'Created by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name
+            ],
+            [
+                'name' => 'updated_by_user',
+                'label' => 'Updated by',
+                'attributes' => ['readonly' => 'readonly'],
+                'value' => auth()->user()->name,
+            ],
+            [
                 'name' => 'updated_by',
                 'type' => 'hidden',
                 'attributes' => ['readonly' => 'readonly'],
@@ -179,11 +173,6 @@ class TemplateCrudController extends CrudController
         $redirect_location = parent::storeCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-
-        if (!View::exists($this->TemplatesPath . '.' . $this->data['entry']->file))
-            file_put_contents($this->buildTemplateName($this->data['entry']->file), "Initial template data");
-
-
         return $redirect_location;
     }
 
@@ -191,15 +180,8 @@ class TemplateCrudController extends CrudController
     {
         // your additional operations before save here
         $redirect_location = parent::updateCrud($request);
-
-        if (!View::exists($this->TemplatesPath . '.' . $this->data['entry']->file))
-            file_put_contents($this->buildTemplateName($this->data['entry']->file), "Initial template data");
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
-    }
-
-    private function buildTemplateName($filename) {
-        return $this->TemplatesPath . '/' . $filename . $this->TemplatesExtension;
     }
 }

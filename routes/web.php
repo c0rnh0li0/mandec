@@ -26,6 +26,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     CRUD::resource('template', 'TemplateCrudController');
     CRUD::resource('page-category', 'PageCategoryCrudController');
     CRUD::resource('page', 'ExtendedPageCrudController');
-    CRUD::resource('controller-permission', 'ControllerPermissionCrudController');
     //CRUD::resource('tag', 'TagCrudController');
 });

@@ -17,9 +17,6 @@ return [
         resource_path('views'),
     ],
 
-    'templates' => [
-        resource_path('views/templates'),
-    ],
     /*
     |--------------------------------------------------------------------------
     | Compiled View Path
