@@ -26,7 +26,7 @@ class WidgetRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     {
         return [
             'name' => 'required|min:5|max:255',
-            'class' => 'required|max:255',
+            //'classname' => 'required|max:255',
             'created_by' => 'required',
             'updated_by' => 'required'
         ];

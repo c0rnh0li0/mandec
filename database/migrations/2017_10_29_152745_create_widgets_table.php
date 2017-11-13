@@ -15,7 +15,7 @@ class CreateWidgetsTable extends Migration
         Schema::create('widgets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('class');
+            $table->string('classname');
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users')->default(1);
             $table->integer('updated_by')->unsigned();

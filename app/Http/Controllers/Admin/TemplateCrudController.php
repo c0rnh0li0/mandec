@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\PageTemplateSection;
+use App\Models\TemplateSection;
+use App\Models\Template;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TemplateRequest as StoreRequest;
 use App\Http\Requests\TemplateRequest as UpdateRequest;
-use Illuminate\Support\Facades\View;
+//use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 
 class TemplateCrudController extends CrudController
@@ -67,84 +71,30 @@ class TemplateCrudController extends CrudController
                 'name' => 'name',
                 'label' => 'Template name'
             ],
-        ], 'update/create/both');
-
-        $this->crud->addFields([
             [
                 'name' => 'file',
                 'label' => 'Template file'
             ],
+            [
+                'name' => 'sections',
+                'label' => 'Sections',
+
+                'type' => 'table',
+                'fake' => true,
+                //'store_in' => 'sections_table',
+                'entity' => 'sections',
+                'attribute' => 'name',
+                'model' => 'App\Models\TemplateSection',
+                'entity_singular' => 'section', // used on the "Add X" button
+                'columns' => [
+                    'name' => 'Name',
+                ],
+                'max' => 5, // maximum rows allowed in the table
+                'min' => 0 // minimum rows allowed in the table
+            ],
         ], 'update/create/both');
 
         $this->createAuditFields();
-
-        // ------ CRUD FIELDS
-        // $this->crud->addField($options, 'update/create/both');
-        // $this->crud->addFields($array_of_arrays, 'update/create/both');
-        // $this->crud->removeField('name', 'update/create/both');
-        // $this->crud->removeFields($array_of_names, 'update/create/both');
-
-        // ------ CRUD COLUMNS
-        // $this->crud->addColumn(); // add a single column, at the end of the stack
-        // $this->crud->addColumns(); // add multiple columns, at the end of the stack
-        // $this->crud->removeColumn('column_name'); // remove a column from the stack
-        // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
-        // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
-        // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
-
-        // ------ CRUD BUTTONS
-        // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
-        // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
-        // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
-        // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
-        // $this->crud->removeButton($name);
-        // $this->crud->removeButtonFromStack($name, $stack);
-        // $this->crud->removeAllButtons();
-        // $this->crud->removeAllButtonsFromStack('line');
-
-        // ------ CRUD ACCESS
-        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
-
-        // ------ CRUD REORDER
-        // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
-        // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('reorder');
-
-        // ------ CRUD DETAILS ROW
-        // $this->crud->enableDetailsRow();
-        // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('details_row');
-        // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
-
-        // ------ REVISIONS
-        // You also need to use \Venturecraft\Revisionable\RevisionableTrait;
-        // Please check out: https://laravel-backpack.readme.io/docs/crud#revisions
-        // $this->crud->allowAccess('revisions');
-
-        // ------ AJAX TABLE VIEW
-        // Please note the drawbacks of this though:
-        // - 1-n and n-n columns are not searchable
-        // - date and datetime columns won't be sortable anymore
-        // $this->crud->enableAjaxTable();
-
-        // ------ DATATABLE EXPORT BUTTONS
-        // Show export to PDF, CSV, XLS and Print buttons on the table view.
-        // Does not work well with AJAX datatables.
-        // $this->crud->enableExportButtons();
-
-        // ------ ADVANCED QUERIES
-        // $this->crud->addClause('active');
-        // $this->crud->addClause('type', 'car');
-        // $this->crud->addClause('where', 'name', '==', 'car');
-        // $this->crud->addClause('whereName', 'car');
-        // $this->crud->addClause('whereHas', 'posts', function($query) {
-        //     $query->activePosts();
-        // });
-        // $this->crud->addClause('withoutGlobalScopes');
-        // $this->crud->addClause('withoutGlobalScope', VisibleScope::class);
-        // $this->crud->with(); // eager load relationships
-        // $this->crud->orderBy();
-        // $this->crud->groupBy();
-        // $this->crud->limit();
     }
 
     private function createAuditFields() {
@@ -175,31 +125,95 @@ class TemplateCrudController extends CrudController
 
     public function store(StoreRequest $request)
     {
-        // your additional operations before save here
+        $sections = json_decode($request->sections);
+        unset($request->sections);
+
         $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
 
-        if (!View::exists($this->TemplatesPath . '.' . $this->data['entry']->file))
-            file_put_contents($this->buildTemplateName($this->data['entry']->file), "Initial template data");
+        file_put_contents($this->buildTemplateName($this->data['entry']->file), "Initial template data [inserted]: " . $request->file . " - " . $request->name);
 
+        $this->saveSections($sections, $this->crud->entry->id);
 
         return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
     {
-        // your additional operations before save here
+        $sections = json_decode($request->sections);
+        unset($request->sections);
+
+        $template = Template::find($request->id);
+        if ($request->file != $template->file)
+            $request->file = $template->file;
+
         $redirect_location = parent::updateCrud($request);
 
-        if (!View::exists($this->TemplatesPath . '.' . $this->data['entry']->file))
-            file_put_contents($this->buildTemplateName($this->data['entry']->file), "Initial template data");
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
+        if (!File::exists($this->TemplatesPath . DIRECTORY_SEPARATOR . $this->data['entry']->file . $this->TemplatesExtension))
+            file_put_contents($this->buildTemplateName($this->data['entry']->file), "Initial template data [updated]: " . $request->file . " - " . $request->name);
+
+        $this->saveSections($sections, $this->crud->entry->id);
+
         return $redirect_location;
     }
 
+    private function saveSections($sections, $template_id) {
+        $template = Template::find($template_id);
+        $associated_sections = $template->sections;
+
+        if (count($associated_sections) != count($sections))
+            $this->deleteSections($associated_sections, $sections);
+
+        foreach ($sections as $section) {
+            if (isset($section->id)) {
+                $existing_template = TemplateSection::find($section->id);
+                if ($existing_template) {
+                    $existing_template->name = $section->name;
+                    $existing_template->template_id = $template_id;
+                    $existing_template->created_by = auth()->user()->id;
+                    $existing_template->updated_by = auth()->user()->id;
+                    $existing_template->save();
+
+                    $this->associateSectionsToPages($template->pages, $existing_template);
+                }
+            }
+            else {
+                if (isset($section->name)) {
+                    $ts = new TemplateSection();
+                    $ts->name = $section->name;
+                    $ts->template_id = $template_id;
+                    $ts->created_by = auth()->user()->id;
+                    $ts->updated_by = auth()->user()->id;
+                    $ts->save();
+
+                    $this->associateSectionsToPages($template->pages, $ts);
+                }
+            }
+        }
+    }
+
+    private function deleteSections($associated_sections, $saved_sections) {
+        $saved = collect($saved_sections);
+        foreach ($associated_sections as $current_section) {
+            $exists = $saved->where('id', '=', $current_section->id);
+            if (count($exists) == 0)
+                $current_section->delete();
+        }
+    }
+
+    private function associateSectionsToPages($pages, $section) {
+        foreach ($pages as $page) {
+            $exists = PageTemplateSection::all()->where('page_id', '=', $page->id)->where('template_section_id', '=', $section->id);
+            if (count($exists) > 0)
+                continue;
+
+            $pts = new PageTemplateSection();
+            $pts->page_id = $page->id;
+            $pts->template_section_id = $section->id;
+            $pts->save();
+        }
+    }
+
     private function buildTemplateName($filename) {
-        return $this->TemplatesPath . '/' . $filename . $this->TemplatesExtension;
+        return $this->TemplatesPath . DIRECTORY_SEPARATOR . $filename . $this->TemplatesExtension;
     }
 }

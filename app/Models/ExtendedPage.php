@@ -56,6 +56,26 @@ class ExtendedPage extends Page
      */
     public function template()
     {
-        return $this->belongsTo('App\Models\Template');
+        return $this->hasOne('App\Models\Template', 'id', 'template_id');
+    }
+
+    /**
+     * Sections of the page
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sections()
+    {
+        return $this->hasMany('App\Models\PageTemplateSection', 'page_id');
+    }
+
+    /**
+     * Widgets in Sections of the page
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function widgets()
+    {
+        return $this->hasMany('App\Models\PageSectionWidget', 'page_id');
     }
 }

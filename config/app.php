@@ -183,6 +183,8 @@ return [
         Backpack\NewsCRUD\NewsCRUDServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
 
+        App\Providers\ComposerServiceProvider::class,
+
     ],
 
     /*

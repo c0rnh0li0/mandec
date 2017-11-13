@@ -14,7 +14,7 @@ class AddCategoriesToPages extends Migration
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->integer('category_id')->unsigned();
+            $table->integer('category_id')->unsigned()->nullable();
         });
     }
 

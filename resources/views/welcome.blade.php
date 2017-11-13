@@ -1,1 +1,1 @@
-@extends('engine.index')
+@extends('master.index')

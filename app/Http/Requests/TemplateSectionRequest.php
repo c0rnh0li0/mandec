@@ -25,7 +25,8 @@ class TemplateSectionRequest extends \Backpack\CRUD\app\Http\Requests\CrudReques
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|min:5|max:255',
+            'template_id' => 'required'
         ];
     }
 

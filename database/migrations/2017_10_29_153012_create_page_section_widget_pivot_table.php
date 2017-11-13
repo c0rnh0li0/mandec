@@ -12,12 +12,14 @@ class CreateTemplateSectionWidgetPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('template_section_widget', function (Blueprint $table) {
+        Schema::create('page_section_widgets', function (Blueprint $table) {
+            $table->integer('page_id')->unsigned()->index();
+            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->integer('template_section_id')->unsigned()->index();
             $table->foreign('template_section_id')->references('id')->on('template_sections')->onDelete('cascade');
             $table->integer('widget_id')->unsigned()->index();
             $table->foreign('widget_id')->references('id')->on('widgets')->onDelete('cascade');
-            $table->primary(['template_section_id', 'widget_id']);
+            $table->primary(['page_id', 'template_section_id', 'widget_id']);
         });
     }
 
@@ -28,6 +30,6 @@ class CreateTemplateSectionWidgetPivotTable extends Migration
      */
     public function down()
     {
-        Schema::drop('template_section_widget');
+        Schema::drop('page_section_widgets');
     }
 }

@@ -12,7 +12,7 @@ class CreatePageTemplateSectionPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('page_template_section', function (Blueprint $table) {
+        Schema::create('page_template_sections', function (Blueprint $table) {
             $table->integer('page_id')->unsigned()->index();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->integer('template_section_id')->unsigned()->index();
@@ -28,6 +28,6 @@ class CreatePageTemplateSectionPivotTable extends Migration
      */
     public function down()
     {
-        Schema::drop('page_template_section');
+        Schema::drop('page_template_sections');
     }
 }

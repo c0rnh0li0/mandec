@@ -19,7 +19,7 @@
             </div>
 
             <!-- main nav -->
-            <nav class="collapse navbar-collapse navbar-right" role="navigation">
+            <!-- <nav class="collapse navbar-collapse navbar-right" role="navigation">
                 <ul id="nav" class="nav navbar-nav menu">
                     <li><a href="#top">Home</a></li>
                     <li><a href="#features">Service</a></li>
@@ -30,7 +30,8 @@
                     <li><a href="#testimonial">Testimonial</a></li>
                     <li><a href="#contact-form">Contact</a></li>
                 </ul>
-            </nav>
+            </nav> -->
+            @include("engine.menu")
             <!-- /main nav -->
 
         </div>

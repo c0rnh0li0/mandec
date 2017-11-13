@@ -20,6 +20,10 @@ return [
     'templates' => [
         resource_path('views/templates'),
     ],
+
+    'widgets' => [
+        resource_path('views/widgets'),
+    ],
     /*
     |--------------------------------------------------------------------------
     | Compiled View Path

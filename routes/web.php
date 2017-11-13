@@ -14,7 +14,7 @@
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('index');
+    return view('main');
 });
 
 /** CATCH-ALL ROUTE for Backpack/PageManager - needs to be at the end of your routes.php file  **/
@@ -27,4 +27,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     CRUD::resource('page-category', 'PageCategoryCrudController');
     CRUD::resource('page', 'ExtendedPageCrudController');
     CRUD::resource('controller-permission', 'ControllerPermissionCrudController');
+    CRUD::resource('article', 'ArticleCrudController');
+    CRUD::resource('category', 'CategoryCrudController');
+    CRUD::resource('tag', 'TagCrudController');
 });

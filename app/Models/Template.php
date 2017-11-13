@@ -21,8 +21,24 @@ class Template extends Model
      *
      * @var array
      */
-    public $fillable = ['name', 'file', 'created_by', 'updated_by'];
+    public $fillable = ['name', 'file', 'sections_table', 'created_by', 'updated_by'];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'sections_table' => 'object',
+    ];
+
+    protected $fakeColumns = ['sections_table'];
+
+    public function setFieldsAttribute($json)
+    {
+        $this->attributes['sections_table'] = $json;
+        // normal Laravel behavior for casted attribute would be $this->attributes['fields'] = json_encode($json);
+    }
 
     /**
      * Get the user who created the widget
@@ -50,6 +66,15 @@ class Template extends Model
     public function pages()
     {
         return $this->hasMany('App\Models\ExtendedPage', 'template_id');
+    }
+
+    /**
+     * Get the sections associated with this template
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sections() {
+        return $this->hasMany('App\Models\TemplateSection', 'template_id');
     }
 
     /**

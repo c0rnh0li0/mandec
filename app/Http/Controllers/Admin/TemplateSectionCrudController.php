@@ -18,7 +18,7 @@ class TemplateSectionCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Template_section');
+        $this->crud->setModel('App\Models\TemplateSection');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/template_section');
         $this->crud->setEntityNameStrings('template_section', 'template_sections');
 

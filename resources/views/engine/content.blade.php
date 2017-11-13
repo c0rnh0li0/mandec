@@ -1,4 +1,3 @@
-
     <section id="banner">
         <div class="container">
             <div class="row">

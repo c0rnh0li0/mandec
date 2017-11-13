@@ -15,7 +15,7 @@
     @include('engine.header')
     <div class="wrapper">
 
-        @include('engine.content')
+        @yield('content')
 
     </div>
     @include('engine.footer')

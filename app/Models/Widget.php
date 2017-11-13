@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
 class Widget extends Model
 {
     use CrudTrait;
+    use Sluggable, SluggableScopeHelpers;
 
     protected $table = 'widgets';
     protected $primaryKey = 'id';
@@ -18,8 +21,24 @@ class Widget extends Model
      *
      * @var array
      */
-    public $fillable = ['name', 'class', 'created_by', 'updated_by'];
+    public $fillable = ['name', 'classname', 'settings', 'created_by', 'updated_by'];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'settings' => 'object',
+    ];
+
+    protected $fakeColumns = ['settings'];
+
+    public function setFieldsAttribute($json)
+    {
+        $this->attributes['settings'] = $json;
+        // normal Laravel behavior for casted attribute would be $this->attributes['fields'] = json_encode($json);
+    }
 
     /**
      * Get the user who created the widget
@@ -27,7 +46,7 @@ class Widget extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function added() {
-        return $this->BelongsTo('App\User', 'created_by');
+        return $this->belongsTo('App\User', 'created_by');
     }
 
     /**
@@ -36,16 +55,40 @@ class Widget extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function edited() {
-        return $this->BelongsTo('App\User', 'updated_by');
+        return $this->belongsTo('App\User', 'updated_by');
     }
 
-    /*public function __construct(array $attributes = array())
+    public function sections() {
+        return $this->hasMany('App\Models\PageSectionWidget', 'widget_id');
+    }
+
+    //public function sections() {
+        //return $this->belongsToMany('App\Models\PageTemplateSection', 'template_section_id', 'template_section_id');
+    //}
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
     {
-        $this->setRawAttributes(array_merge($this->attributes, array(
-            'end_date' => Carbon::now()->addDays(10)
-        )), true);
-        parent::__construct($attributes);
-    }*/
+        return [
+            'classname' => [
+                'source' => ['classname', 'name'],
+            ],
+        ];
+    }
+
+    // The slug is created automatically from the "name" field if no slug exists.
+    public function getClassnameOrNameAttribute()
+    {
+        if ($this->classname != '') {
+            return $this->classname;
+        }
+
+        return $this->name;
+    }
 }
 
 
