@@ -508,6 +508,7 @@ class ComposerStaticInitc8bc0228d1548506576fbe759edec123
         'App\\Models\\ControllerPermission' => __DIR__ . '/../..' . '/app/Models/ControllerPermission.php',
         'App\\Models\\ExtendedPage' => __DIR__ . '/../..' . '/app/Models/ExtendedPage.php',
         'App\\Models\\PageCategory' => __DIR__ . '/../..' . '/app/Models/PageCategory.php',
+        'App\\Models\\PageSectionWidget' => __DIR__ . '/../..' . '/app/Models/PageSectionWidget.php',
         'App\\Models\\PageTemplateSection' => __DIR__ . '/../..' . '/app/Models/PageTemplateSection.php',
         'App\\Models\\Tag' => __DIR__ . '/../..' . '/app/Models/Tag.php',
         'App\\Models\\Template' => __DIR__ . '/../..' . '/app/Models/Template.php',

@@ -45,6 +45,7 @@ return array(
     'App\\Models\\ControllerPermission' => $baseDir . '/app/Models/ControllerPermission.php',
     'App\\Models\\ExtendedPage' => $baseDir . '/app/Models/ExtendedPage.php',
     'App\\Models\\PageCategory' => $baseDir . '/app/Models/PageCategory.php',
+    'App\\Models\\PageSectionWidget' => $baseDir . '/app/Models/PageSectionWidget.php',
     'App\\Models\\PageTemplateSection' => $baseDir . '/app/Models/PageTemplateSection.php',
     'App\\Models\\Tag' => $baseDir . '/app/Models/Tag.php',
     'App\\Models\\Template' => $baseDir . '/app/Models/Template.php',
