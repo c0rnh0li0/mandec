@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d925f2b2-cb1b-4cbe-a582-e6d4a59b2f0a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/admin-frontend.js" afterPath="$PROJECT_DIR$/public/js/admin-frontend.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/index.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -916,7 +914,7 @@
       <workItem from="1510404137710" duration="49037000" />
       <workItem from="1510559524853" duration="573000" />
       <workItem from="1510592312779" duration="2965000" />
-      <workItem from="1510764092080" duration="24197000" />
+      <workItem from="1510764092080" duration="24209000" />
     </task>
     <task id="LOCAL-00001" summary="- Widgets and templates CRUD started">
       <created>1509399774328</created>
@@ -995,11 +993,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510819295897</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="- Frontend engine start (widget to sections associations)">
+      <created>1510819586225</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1510819586225</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167995000" />
+    <option name="totallyTimeSpent" value="168007000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1015" extended-state="6" />
