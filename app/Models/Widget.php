@@ -21,24 +21,7 @@ class Widget extends Model
      *
      * @var array
      */
-    public $fillable = ['name', 'classname', 'settings', 'created_by', 'updated_by'];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'settings' => 'object',
-    ];
-
-    protected $fakeColumns = ['settings'];
-
-    public function setFieldsAttribute($json)
-    {
-        $this->attributes['settings'] = $json;
-        // normal Laravel behavior for casted attribute would be $this->attributes['fields'] = json_encode($json);
-    }
+    public $fillable = ['name', 'classname', 'widget_type_id', 'created_by', 'updated_by'];
 
     /**
      * Get the user who created the widget
@@ -62,9 +45,9 @@ class Widget extends Model
         return $this->hasMany('App\Models\PageSectionWidget', 'widget_id');
     }
 
-    //public function sections() {
-        //return $this->belongsToMany('App\Models\PageTemplateSection', 'template_section_id', 'template_section_id');
-    //}
+    public function type() {
+        return $this->hasOne('App\Models\WidgetType', 'widget_type_id');
+    }
 
     /**
      * Return the sluggable configuration array for this model.

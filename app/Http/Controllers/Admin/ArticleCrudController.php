@@ -30,6 +30,10 @@ class ArticleCrudController extends CrudController
 
         // ------ CRUD COLUMNS
         $this->crud->addColumn([
+            'name' => 'title',
+            'label' => 'Title',
+        ]);
+        $this->crud->addColumn([
                                 'name' => 'date',
                                 'label' => 'Date',
                                 'type' => 'date',
@@ -38,10 +42,7 @@ class ArticleCrudController extends CrudController
                                 'name' => 'status',
                                 'label' => 'Status',
                             ]);
-        $this->crud->addColumn([
-                                'name' => 'title',
-                                'label' => 'Title',
-                            ]);
+
         $this->crud->addColumn([
                                 'name' => 'featured',
                                 'label' => 'Featured',

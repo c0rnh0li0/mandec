@@ -1,0 +1,1 @@
+Widget settings view BANNER

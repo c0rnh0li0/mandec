@@ -4,6 +4,7 @@ namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
 use Backpack\MenuCRUD\app\Models\MenuItem;
+use App\Models\Widget;
 
 class MenuComposer
 {
@@ -16,6 +17,7 @@ class MenuComposer
     public function __construct()
     {
         $this->data['menu_items'] = MenuItem::getTree();
+        $this->data['widgets'] = Widget::all();
     }
 
     /**
@@ -26,7 +28,7 @@ class MenuComposer
      */
     public function compose(View $view)
     {
-        $view->with('menu_items', end($this->data));
+        $view->with(['menu_items' => $this->data['menu_items'], 'widgets' => $this->data['widgets']]);
     }
 }
 ?>

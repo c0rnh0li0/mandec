@@ -1,3 +1,27 @@
+@hasrole('Admin')
+<div class="admin-menu">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Admin menu</a>
+        </div>
+        <ul class="navbar-nav navbar-right">
+            <li><a href="#">+ Add category</a></li>
+            <li><a href="#">+ Add page</a></li>
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">+ Add widget</a>
+                <ul class="dropdown-menu">
+                    <li class="draggable-widgets">
+                        @foreach ($widgets as $widget)
+                            <div id="widget-{{ $widget->id }}" class="draggable-widgets">{{ $widget->name }}</div>
+                        @endforeach
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="clearfix"></div>
+@endhasrole
 <nav class="collapse navbar-collapse navbar-right" role="navigation">
     <ul id="nav" class="nav navbar-nav menu">
     @if ($menu_items->count())

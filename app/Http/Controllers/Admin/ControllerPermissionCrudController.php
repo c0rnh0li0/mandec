@@ -7,6 +7,7 @@ use App\Http\Requests\ControllerPermissionRequest as StoreRequest;
 use App\Http\Requests\ControllerPermissionRequest as UpdateRequest;
 use Backpack\PermissionManager\app\Models\Permission;
 use Backpack\PermissionManager\app\Models\Role;
+use Illuminate\Support\Facades\DB;
 use Backpack\CRUD\CrudTrait;
 
 class ControllerPermissionCrudController extends CrudController
@@ -16,6 +17,7 @@ class ControllerPermissionCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
+
         $this->crud->setModel('App\Models\ControllerPermission');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/controller-permission');
         $this->crud->setEntityNameStrings('controller-permission', 'controller-permissions');
@@ -40,7 +42,12 @@ class ControllerPermissionCrudController extends CrudController
                 foreach ($actions as $action) {
                     $permission = $key . $suffix . "@" . $action;
                     $form_permission = $key . "@" . $action;
-                    $role_permissions[$roles[$i]->name][$form_permission] = $role->hasPermissionTo($permission) ? 1 : 0;
+
+                    if ($permission == "" || $form_permission == "")
+                        continue;
+
+                    $roleHasPermission = $roles[$i]->hasPermissionTo($permission, $roles[$i]->id);
+                    $role_permissions[$roles[$i]->name][$form_permission] = $roleHasPermission ? 1 : 0;
                 }
             }
         }
@@ -127,8 +134,8 @@ class ControllerPermissionCrudController extends CrudController
             $actionStr = $actionArr[0] . $suffix . '@' . $actionArr[1];
 
             $role = Role::findByName($roleStr);
-            if ($role->hasPermissionTo($actionStr))
-                $role->revokePermissionTo($actionStr);
+            if (!$role->hasPermissionTo($actionStr, $role->id))
+                $role->revokePermissionTo($actionStr, $role->id);
         }
     }
 
@@ -160,8 +167,30 @@ class ControllerPermissionCrudController extends CrudController
             $actionStr = $actionArr[0] . $suffix . '@' . $actionArr[1];
 
             $role = Role::findByName($roleStr);
-            if (!$role->hasPermissionTo($actionStr))
-                $role->givePermissionTo($actionStr);
+
+            if (!$role->hasPermissionTo($actionArr, $role->id))
+                $role->givePermissionTo($actionStr, $role->id);
         }
+    }
+
+    private function hasPermissionTo($permissionName, $role_id) {
+        $permission = Permission::all()->where('name', $permissionName[0])->first();
+        if ($permission)
+            return DB::select('SELECT * FROM `permission_roles` WHERE `permission_id` = ? AND `role_id` = ? ', [$permission->id, $role_id]);
+        return false;
+    }
+
+    private function givePermissionTo($permissionName, $role_id) {
+        $permission = Permission::all()->where('name', $permissionName[0])->first();
+        if ($permission)
+            return DB::select('INSERT `permission_roles` (`permission_id`, `role_id`) VALUES (?, ?)', [$permission->id, $role_id]);
+        return false;
+    }
+
+    private function revokePermissionTo($permissionName, $role_id) {
+        $permission = Permission::all()->where('name', $permissionName[0])->first();
+        if ($permission)
+            return DB::select('DELETE FROM `permission_roles` WHERE `permission_id` = ? AND `role_id` = ?', [$permission->id, $role_id]);
+        return false;
     }
 }

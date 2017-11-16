@@ -52,10 +52,19 @@
                                     </td>
                                     @foreach ($roles as $role)
                                         <td>
-                                            <input name="rolepermission_{{ $role['name'] }}|{{ $c }}~{{ $action }}" type="checkbox" class="chk-row" data-controller="{{ $c  }}" data-controller-action="{{ $c . '@' . $action }}" data-role="{{ $role['name'] }}" value="1" @if ($role_permissions[$role['name']][$c . "@" . $action] == 1)checked="checked"@endif />
+                                            <?php $checked = ''; ?>
+                                            <?php if (isset($role_permissions[$role['name']][$c . "@" . $action])) { ?>
+                                                @if ($role_permissions[$role['name']][$c . "@" . $action] == 1)
+                                                    <?php $checked = 'checked="checked"'; ?>
+                                                @endif
+                                            <?php } ?>
+
+                                            <input name="rolepermission_{{ $role['name'] }}|{{ $c }}~{{ $action }}" type="checkbox" class="chk-row" data-controller="{{ $c  }}" data-controller-action="{{ $c . '@' . $action }}" data-role="{{ $role['name'] }}" value="1" {{ $checked }} />
+                                            <?php if (isset($role_permissions[$role['name']][$c . "@" . $action])) { ?>
                                             @if ($role_permissions[$role['name']][$c . "@" . $action] == 1)
                                                 <input name="deletepermission_{{ $role['name'] }}|{{ $c }}~{{ $action }}" type="checkbox" class="chk-delete hidden"  data-controller="{{ $c }}" data-controller-action="{{ $c . '@' . $action }}" data-role="{{ $role['name'] }}" value="1" />
                                             @endif
+                                            <?php } ?>
                                         </td>
                                     @endforeach
                                 </tr>

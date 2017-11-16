@@ -24,6 +24,10 @@ return [
     'widgets' => [
         resource_path('views/widgets'),
     ],
+
+    'widget_types' => [
+        resource_path('views/widget_types'),
+    ],
     /*
     |--------------------------------------------------------------------------
     | Compiled View Path

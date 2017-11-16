@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ExtendedPage;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\ExtendedPageRequest as StoreRequest;
 use App\Http\Requests\ExtendedPageRequest as UpdateRequest;
-use Backpack\PageManager\app\Http\Controllers\Admin\PageCrudController;
+use App\Models\Template;
+use App\Models\PageTemplateSection;
 use Backpack\CRUD\CrudTrait;
 
 class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\CrudController
@@ -191,7 +193,7 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
 
 
     // Overwrites the CrudController create() method to add template usage.
-    public function create($template = false)
+    public function create()
     {
         return parent::create();
     }
@@ -205,10 +207,10 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
     // Overwrites the CrudController store() method to add template usage.
     public function store(StoreRequest $request)
     {
-        // your additional operations before save here
         $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
+
+        $this->associateWithTemplateSections($this->crud->entry->id, $this->data['entry']->template_id);
+
         return $redirect_location;
     }
 
@@ -216,8 +218,24 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
     {
         // your additional operations before save here
         $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
+        $this->associateWithTemplateSections($this->crud->entry->id, $this->data['entry']->template_id);
         return $redirect_location;
+    }
+
+    private function associateWithTemplateSections($page_id, $template_id) {
+        $template = Template::find($template_id);
+        $page = ExtendedPage::find($page_id);
+        $template_sections = $template->sections;
+
+        foreach ($template_sections as $section) {
+            $exists = PageTemplateSection::all()->where('page_id', '=', $page->id)->where('template_section_id', '=', $section->id);
+            if (count($exists) > 0)
+                continue;
+
+            $pts = new PageTemplateSection();
+            $pts->page_id = $page->id;
+            $pts->template_section_id = $section->id;
+            $pts->save();
+        }
     }
 }

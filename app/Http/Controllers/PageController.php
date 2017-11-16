@@ -36,6 +36,7 @@ class PageController extends Controller
         $this->data['menu_items'] = MenuItem::getTree();
         $this->data['title'] = $page->title;
         $this->data['page'] = $page->withFakes();
+        $this->data['sections'] = $page->template->sections;
 
         return view('templates.'.$page->template->file, $this->data);
     }

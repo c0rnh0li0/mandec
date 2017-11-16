@@ -10,3 +10,6 @@
 <link rel="stylesheet" href="{{ asset('css/icon.css')}}">
 <link rel="stylesheet" href="{{ asset('css/style.css')}}">
 <link rel="stylesheet" href="{{ asset('css/responsive.css')}}">
+@hasrole('Admin')
+<link rel="stylesheet" href="{{ asset('css/admin.css')}}">
+@endhasrole

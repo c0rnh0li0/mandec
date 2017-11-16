@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTemplateSectionWidgetPivotTable extends Migration
+class CreatePageSectionWidgetPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,7 @@ class CreateTemplateSectionWidgetPivotTable extends Migration
             $table->foreign('template_section_id')->references('id')->on('template_sections')->onDelete('cascade');
             $table->integer('widget_id')->unsigned()->index();
             $table->foreign('widget_id')->references('id')->on('widgets')->onDelete('cascade');
-            $table->primary(['page_id', 'template_section_id', 'widget_id']);
+            $table->primary(['page_id', 'template_section_id', 'widget_id'], 'page_section_widget_primary_id');
         });
     }
 

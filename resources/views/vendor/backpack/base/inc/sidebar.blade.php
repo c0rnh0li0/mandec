@@ -28,6 +28,7 @@
             <ul class="treeview-menu">
               <li><a href="{{ url('admin/template') }}"><i class="fa fa-list"></i> <span>Templates</span></a></li>
               <li><a href="{{ url('admin/widget') }}"><i class="fa fa-list"></i> <span>Widgets</span></a></li>
+              <li><a href="{{ url('admin/widget_type') }}"><i class="fa fa-list"></i> <span>Widget Types</span></a></li>
               <li><a href="{{ url('admin/menu-item') }}"><i class="fa fa-list"></i> <span>Menu</span></a></li>
               <li><a href="{{ url('admin/page-category') }}"><i class="fa fa-newspaper-o"></i> <span>Page Categories</span></a></li>
               <li><a href="{{ url('admin/page') }}"><i class="fa fa-file-o"></i> <span>Pages</span></a></li>

@@ -46,7 +46,7 @@ class PageSectionWidget extends Model
     /**
      * The page section widgets association
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
     public function widgets()
     {

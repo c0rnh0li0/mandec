@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <title>Themelight</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- google fonts -->
-
-    <!-- Css link -->
     @include('engine.styles')
-
 </head>
 <body id="top">
     @include('engine.header')

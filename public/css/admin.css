@@ -1,0 +1,15 @@
+.admin-menu {
+    background-color: #0d6aad;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+.admin-menu li {
+    padding: 5px 10px 5px 10px;
+}
+
+.admin-menu li a{
+    color: #f0fafb;
+}

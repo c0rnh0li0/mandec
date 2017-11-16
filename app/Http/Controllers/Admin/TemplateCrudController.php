@@ -10,7 +10,6 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TemplateRequest as StoreRequest;
 use App\Http\Requests\TemplateRequest as UpdateRequest;
-//use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 

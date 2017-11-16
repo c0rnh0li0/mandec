@@ -70,6 +70,14 @@ class WidgetCrudController extends CrudController
                 'name' => 'classname',
                 'label' => 'Class name'
             ],
+            [
+                'name' => 'widget_type_id',
+                'label' => "Widget type",
+                'type' => 'select',
+                'entity' => 'widget',
+                'attribute' => 'name',
+                'model' => "App\Models\WidgetType"
+            ],
             // TODO: add widget settings under page association, probably on drag n drop
         ], 'update/create/both');
 

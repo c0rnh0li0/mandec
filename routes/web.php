@@ -17,11 +17,11 @@ Route::get('/', function () {
     return view('main');
 });
 
-/** CATCH-ALL ROUTE for Backpack/PageManager - needs to be at the end of your routes.php file  **/
-Route::get('{page}/{subs?}', ['uses' => 'PageController@index'])->where(['page' => '^((?!admin).)*$', 'subs' => '.*']);
+Route::group(['prefix' => 'admin', 'middleware' => ['adminAjax', 'web', 'auth'], 'namespace' => 'Admin'], function () {
+    CRUD::resource('pagesectionwidget', 'PageSectionWidgetCrudController');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' => 'Admin'], function () {
     CRUD::resource('widget', 'WidgetCrudController');
+    CRUD::resource('widget_type', 'WidgetTypeCrudController');
     CRUD::resource('template_section', 'TemplateSectionCrudController');
     CRUD::resource('template', 'TemplateCrudController');
     CRUD::resource('page-category', 'PageCategoryCrudController');
@@ -31,3 +31,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     CRUD::resource('category', 'CategoryCrudController');
     CRUD::resource('tag', 'TagCrudController');
 });
+
+/** CATCH-ALL ROUTE for Backpack/PageManager - needs to be at the end of your routes.php file  **/
+Route::get('{page?}/{subs?}', ['uses' => 'PageController@index'])->where(['page' => '^((?!admin).)*$', 'subs' => '.*']);
