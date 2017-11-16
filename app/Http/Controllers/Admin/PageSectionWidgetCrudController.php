@@ -11,8 +11,10 @@ class PageSectionWidgetCrudController extends CrudController
 {
     public function __construct()
     {
-        parent::__construct();
         $this->middleware('adminAjax');
+
+        parent::__construct();
+
     }
 
     public function setup()
@@ -28,7 +30,7 @@ class PageSectionWidgetCrudController extends CrudController
         $this->data['template_section_id'] = 1;
         $this->data['widget_id'] = 1;
 
-        return view('custom_admin.permissions-matrix', $this->data)->render();
+        return view('widget_types.banner', $this->data)->render();
         //return parent::create();
     }
 
