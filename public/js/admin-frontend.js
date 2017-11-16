@@ -4,6 +4,12 @@
 ROOT_URL = window.location.protocol + '//' + window.location.host;
 
 $(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $(".mandec-section").sortable({
         revert: true,
         /*update: function( event, ui ) {
@@ -29,6 +35,7 @@ function openWidgetForm(widget, section, page) {
         url: ROOT_URL + "/admin/pagesectionwidget/create",
         method: "POST",
         data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
             page_id: page,
             template_section_id: section,
             widget_id: widget
