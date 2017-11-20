@@ -17,4 +17,5 @@
 
 @hasrole('Admin')
 <script src="js/admin-frontend.js"></script>
+@include("custom_admin.widget-popup")
 @endhasrole

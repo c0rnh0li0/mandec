@@ -7,5 +7,12 @@ use App\Http\Controllers\Controller;
 
 class BannerWidget extends Controller
 {
-    //
+    public function __construct()
+    {
+
+    }
+
+    public function settings() {
+
+    }
 }

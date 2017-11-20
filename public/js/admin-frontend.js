@@ -5,9 +5,7 @@ ROOT_URL = window.location.protocol + '//' + window.location.host;
 
 $(function () {
     $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+        headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
     });
 
     $(".mandec-section").sortable({
@@ -32,15 +30,20 @@ $(function () {
 
 function openWidgetForm(widget, section, page) {
     $.ajax({
-        url: ROOT_URL + "/admin/pagesectionwidget/create",
-        method: "POST",
+        url: ROOT_URL + "/frontend/pagesectionwidget/create",
+        method: "GET",
         data: {
-            _token: $('meta[name="csrf-token"]').attr('content'),
+            _token: $('meta[name=_token]').attr('content'),
             page_id: page,
             template_section_id: section,
             widget_id: widget
         },
         success: function(result){
+            $('#widget_modal').modal("toggle");
+            //$('#widget_modal').on("show.bs.modal", function (e) {
+
+            //});
+
             console.log(result);
         }
     });

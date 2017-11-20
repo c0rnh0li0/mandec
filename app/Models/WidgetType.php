@@ -41,7 +41,7 @@ class WidgetType extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function widget() {
-        return $this->belongsTo('App\Models\Widget', 'widget_type_id', 'id');
+        return $this->belongsTo('App\Models\Widget', 'widget_type_id');
     }
 
     /**

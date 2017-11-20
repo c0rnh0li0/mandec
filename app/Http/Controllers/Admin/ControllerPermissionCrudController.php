@@ -26,6 +26,12 @@ class ControllerPermissionCrudController extends CrudController
     }
 
     public function index() {
+        // you might wanna run this before this method. clear up cache!
+        //php artisan cache:forget spatie.permission.cache
+
+        $fullNameControllers = $this->getControllersWithFullName("App\Http\Controllers\Admin\\");
+        $this->makePermissions($fullNameControllers);
+
         $controllers = $this->getControllers("App\Http\Controllers\Admin\\");
         $suffix = "CrudController";
 
@@ -46,8 +52,9 @@ class ControllerPermissionCrudController extends CrudController
                     if ($permission == "" || $form_permission == "")
                         continue;
 
-                    $roleHasPermission = $roles[$i]->hasPermissionTo($permission, $roles[$i]->id);
-                    $role_permissions[$roles[$i]->name][$form_permission] = $roleHasPermission ? 1 : 0;
+                    //$roleHasPermission = $roles[$i]->hasPermissionTo($permission, $roles[$i]->id);
+                    $roleHasPermission = $role->hasPermissionTo($permission);
+                    $role_permissions[$role->name][$form_permission] = $roleHasPermission ? 1 : 0;
                 }
             }
         }
@@ -67,7 +74,7 @@ class ControllerPermissionCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         $data = $request->all();
-        $this->savePermissions($data, "permissionname");
+        //$this->savePermissions($data, "permissionname");
         $this->assignPermissions($data, "rolepermission");
         $this->deletePermissions($data, "deletepermission");
 
@@ -77,7 +84,7 @@ class ControllerPermissionCrudController extends CrudController
     public function update(UpdateRequest $request)
     {
         $data = $request->all();
-        $this->savePermissions($data, "permissionname");
+        //$this->savePermissions($data, "permissionname");
         $this->assignPermissions($data, "rolepermission");
         $this->deletePermissions($data, "deletepermission");
 
@@ -107,8 +114,37 @@ class ControllerPermissionCrudController extends CrudController
         return $routes;
     }
 
+    private function getControllersWithFullName($query = "App\Http\Controllers\\", $suffix = "CrudController") {
+        $routeCollection = \Route::getRoutes();
+        $routes = [];
+
+        foreach ($routeCollection as $route) {
+            $action = $route->getAction();
+
+            if (array_key_exists('controller', $action)) {
+                $explodedAction = explode('@', $action['controller']);
+
+                if (substr($explodedAction[0], 0, strlen($query)) === $query) {
+                    $route_key = explode($query, $explodedAction[0])[1];
+
+                    $routes[] = $route_key . "@" . $explodedAction[1];
+                }
+            }
+        }
+
+        return $routes;
+    }
+
     private function getControllerReadableName($crudController, $path = "App\Http\Controllers\\", $suffix = "CrudController") {
         return explode($suffix, explode($path, $crudController)[1])[0];
+    }
+
+    private function makePermissions($actions) {
+        foreach ($actions as $action) {
+            $permission = Permission::where('name', $action)->first();
+            if ($permission == null)
+                Permission::create(['name' => $action]);
+        }
     }
 
     private function savePermissions($data, $prefix, $suffix = "CrudController") {
@@ -168,29 +204,8 @@ class ControllerPermissionCrudController extends CrudController
 
             $role = Role::findByName($roleStr);
 
-            if (!$role->hasPermissionTo($actionArr, $role->id))
-                $role->givePermissionTo($actionStr, $role->id);
+            if (!$role->hasPermissionTo($actionStr))
+                $role->givePermissionTo($actionStr);
         }
-    }
-
-    private function hasPermissionTo($permissionName, $role_id) {
-        $permission = Permission::all()->where('name', $permissionName[0])->first();
-        if ($permission)
-            return DB::select('SELECT * FROM `permission_roles` WHERE `permission_id` = ? AND `role_id` = ? ', [$permission->id, $role_id]);
-        return false;
-    }
-
-    private function givePermissionTo($permissionName, $role_id) {
-        $permission = Permission::all()->where('name', $permissionName[0])->first();
-        if ($permission)
-            return DB::select('INSERT `permission_roles` (`permission_id`, `role_id`) VALUES (?, ?)', [$permission->id, $role_id]);
-        return false;
-    }
-
-    private function revokePermissionTo($permissionName, $role_id) {
-        $permission = Permission::all()->where('name', $permissionName[0])->first();
-        if ($permission)
-            return DB::select('DELETE FROM `permission_roles` WHERE `permission_id` = ? AND `role_id` = ?', [$permission->id, $role_id]);
-        return false;
     }
 }

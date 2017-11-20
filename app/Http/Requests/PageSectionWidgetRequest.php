@@ -4,7 +4,8 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class PageSectionWidgetRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+//class PageSectionWidgetRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class PageSectionWidgetRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,8 +15,8 @@ class PageSectionWidgetRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequ
     public function authorize()
     {
         // only allow updates if the user is logged in
-        return \Auth::check();
-        //return auth()->user()->hasRole('Admin');
+        //return \Auth::check();
+        return auth()->user()->hasRole('Admin');
         //return true;
     }
 

@@ -17,9 +17,12 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['adminAjax', 'web', 'auth'], 'namespace' => 'Admin'], function () {
-    CRUD::resource('pagesectionwidget', 'PageSectionWidgetCrudController');
+Route::group(['prefix' => 'frontend', 'middleware' => ['adminAjax'], 'namespace' => 'Frontend'], function () {
+    //dd("dies here");
+    Route::resource('pagesectionwidget', 'PageSectionWidgetController');
+});
 
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' => 'Admin'], function () {
     CRUD::resource('widget', 'WidgetCrudController');
     CRUD::resource('widget_type', 'WidgetTypeCrudController');
     CRUD::resource('template_section', 'TemplateSectionCrudController');

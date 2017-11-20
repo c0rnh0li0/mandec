@@ -222,6 +222,7 @@ class ExtendedPageCrudController extends \Backpack\CRUD\app\Http\Controllers\Cru
         return $redirect_location;
     }
 
+    // TODO: delete already associated sections if chosing a different template
     private function associateWithTemplateSections($page_id, $template_id) {
         $template = Template::find($template_id);
         $page = ExtendedPage::find($page_id);

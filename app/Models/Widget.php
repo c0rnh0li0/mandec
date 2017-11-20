@@ -46,7 +46,7 @@ class Widget extends Model
     }
 
     public function type() {
-        return $this->hasOne('App\Models\WidgetType', 'widget_type_id');
+        return $this->belongsTo('App\Models\WidgetType', 'widget_type_id');
     }
 
     /**

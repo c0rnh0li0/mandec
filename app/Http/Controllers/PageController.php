@@ -38,6 +38,6 @@ class PageController extends Controller
         $this->data['page'] = $page->withFakes();
         $this->data['sections'] = $page->template->sections;
 
-        return view('templates.'.$page->template->file, $this->data);
+        return view('templates.' . $page->template->file, $this->data);
     }
 }

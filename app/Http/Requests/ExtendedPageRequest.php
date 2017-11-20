@@ -27,7 +27,7 @@ class ExtendedPageRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
         $id = \Request::get('id');
 
         return [
-            'name' => 'required|min:2|max:255',
+            //'name' => 'required|min:2|max:255',
             'title' => 'required|min:2|max:255',
             'slug' => 'unique:pages,slug'.($id ? ','.$id : ''),
             'template_id' => 'required'
