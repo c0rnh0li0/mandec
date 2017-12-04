@@ -1,4 +1,5 @@
-<form role="form">
+{!! Form::open(array('url' => $crud->route, 'method' => 'post', 'role' => 'form')) !!}
+<!-- <form  role="form"> -->
     <div class="form-group">
         <label for="widget_title">Title</label>
         <input type="text" class="form-control" id="widget_title" name="widget_title" placeholder="Title" />
@@ -15,4 +16,5 @@
         <label><input type="checkbox" value="" checked>Remember me</label>
     </div> -->
     <button type="submit" class="btn btn-success btn-block">Save</button>
-</form>
+<!-- </form> -->
+{!! Form::close() !!}

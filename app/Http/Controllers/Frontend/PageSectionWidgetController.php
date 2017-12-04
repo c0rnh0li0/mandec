@@ -6,35 +6,54 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PageSectionWidgetRequest as FrontendRequest;
 use App\Models\PageSectionWidget;
 use App\Models\Widget;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
-class PageSectionWidgetController extends Controller
+class PageSectionWidgetController extends CrudController
 {
     public function __construct()
     {
         $this->middleware('adminAjax');
 
-        //parent::__construct();
+        parent::__construct();
     }
 
-    /*
+
     public function setup()
     {
         //dd(config('backpack.base.frontend_route_prefix'));
         $this->crud->setModel('App\Models\PageSectionWidget');
-        $this->crud->setRoute(config('backpack.base.frontend_route_prefix') . '/pagesectionwidget');
+        //$this->crud->setRoute(config('backpack.base.frontend_route_prefix') . '/pagesectionwidget');
         $this->crud->setEntityNameStrings('pagesectionwidget', 'pagesectionwidgets');
+
+        $this->crud->addFields([
+            [
+                'name' => 'settings',
+                'label' => "Settings"
+            ],
+            [
+                'name' => 'page_id',
+                'label' => "Page"
+            ],
+        ], 'update/create/both');
     }
-    */
+
     public function create()
     {
+        //use CrudController;
 
         $this->data['page_id'] = 1;
         $this->data['template_section_id'] = 1;
         $this->data['widget_id'] = 1;
+        $this->data['crud'] = $this->crud;
 
         $widget = Widget::findOrFail($this->data['widget_id']);
 
+        //$this->crud->setCreateView('widget_types.' . $widget->type->settings_view);
+
+
+        //return parent::create();
         //dd($widget->type->settings_view);
+        //return view($this->crud->getCreateView(), $this->data)->render();
         return view('widget_types.' . $widget->type->settings_view, $this->data)->render();
         //return parent::create();
     }

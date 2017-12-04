@@ -6,8 +6,8 @@
         "backpack",
         "NewsCRUD"
     ],
-    "homepage": "https://github.com/backpack/NewsCRUD",
-    "license": "MIT",
+    "homepage": "https://github.com/Laravel-Backpack/NewsCRUD",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Cristian Tabacitu",
@@ -41,6 +41,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Backpack\\NewsCRUD\\NewsCRUDServiceProvider"
+            ]
         }
     }
 }

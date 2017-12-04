@@ -6,9 +6,9 @@
         <div class="modal-content">
             <div class="modal-header" style="padding:15px 20px;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4>Edit widget</h4>
+                <h4>Edit widget NOW WE ARE TALKING</h4>
             </div>
-            <div class="modal-body" style="padding:40px 50px;">
+            <div class="modal-body" id="widget_popup_body" style="padding:40px 50px;">
                 <form role="form">
                     <div class="form-group">
                         <label for="widget_title">Title</label>

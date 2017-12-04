@@ -19,7 +19,7 @@ class PageSectionWidget extends Model
     //protected $primaryKey = 'id';
     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['page_id', 'template_section_id', 'widget_id'];
+    protected $fillable = ['page_id', 'template_section_id', 'widget_id', 'settings'];
     // protected $hidden = [];
     // protected $dates = [];
 

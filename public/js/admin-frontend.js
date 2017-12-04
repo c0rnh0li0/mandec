@@ -39,6 +39,7 @@ function openWidgetForm(widget, section, page) {
             widget_id: widget
         },
         success: function(result){
+            $('#widget-modal').find('#widget_popup_body').html(result);
             $('#widget_modal').modal("toggle");
             //$('#widget_modal').on("show.bs.modal", function (e) {
 
