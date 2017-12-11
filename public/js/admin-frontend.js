@@ -39,13 +39,31 @@ function openWidgetForm(widget, section, page) {
             widget_id: widget
         },
         success: function(result){
-            $('#widget-modal').find('#widget_popup_body').html(result);
+            $('#widget_popup_body').html(result);
             $('#widget_modal').modal("toggle");
+
+            initWidgetForm();
             //$('#widget_modal').on("show.bs.modal", function (e) {
 
             //});
 
             console.log(result);
         }
+    });
+}
+
+function initWidgetForm() {
+    $('#widget_form').off('submit').on('submit', function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: $(this).prop('action'),
+            data: $(this).serialize(),
+            method: 'PUT'
+        }).done(function() {
+            console.log( "done" );
+        });
+
+        return false;
     });
 }

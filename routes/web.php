@@ -17,7 +17,12 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::group(['prefix' => 'frontend', 'middleware' => ['adminAjax'], 'namespace' => 'Frontend'], function () {
+Route::get('elfinder/connector', '\Barryvdh\Elfinder\ElfinderController@showConnector');
+Route::post('elfinder/connector', '\Barryvdh\Elfinder\ElfinderController@showConnector');
+Route::get('elfinder', '\Barryvdh\Elfinder\ElfinderController@showPopup');
+Route::get('admin/elfinder', '\Barryvdh\Elfinder\ElfinderController@showPopup');
+
+Route::group(['prefix' => 'frontend', 'middleware' => ['web', 'adminAjax'], 'namespace' => 'Frontend'], function () {
     //dd("dies here");
     Route::resource('pagesectionwidget', 'PageSectionWidgetController');
 });

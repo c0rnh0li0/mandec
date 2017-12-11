@@ -182,7 +182,7 @@ return [
         Backpack\MenuCRUD\MenuCRUDServiceProvider::class,
         Backpack\NewsCRUD\NewsCRUDServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-
+        Barryvdh\Elfinder\ElfinderServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
 
     ],

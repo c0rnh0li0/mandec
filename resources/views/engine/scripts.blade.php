@@ -16,6 +16,9 @@
 <script src="js/main.js"></script>
 
 @hasrole('Admin')
+<script src="js/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="/packages/barryvdh/elfinder/js/standalonepopup.min.js"></script>
 <script src="js/admin-frontend.js"></script>
+
 @include("custom_admin.widget-popup")
 @endhasrole

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
+//use App\Http\Requests\Request;
 
-//class PageSectionWidgetRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
-class PageSectionWidgetRequest extends Request
+class PageSectionWidgetRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+//class PageSectionWidgetRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
