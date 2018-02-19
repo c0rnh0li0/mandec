@@ -54,6 +54,10 @@ class PageSectionWidgetController extends Controller
     public function store(FrontendRequest $request)
     {
         $requestData = $request->all();
+
+        $widget = Widget::findOrFail($requestData->data['widget_id']);
+        $widgetInstance = new $widget->classname();
+        $requestData->data['settings'] = $widgetInstance->createSettings($requestData);
         dd($requestData);
         //PageSectionWidget::create($requestData);
 

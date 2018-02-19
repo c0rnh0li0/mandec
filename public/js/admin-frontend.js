@@ -55,11 +55,14 @@ function openWidgetForm(widget, section, page) {
 function initWidgetForm() {
     $('#widget_form').off('submit').on('submit', function(event) {
         event.preventDefault();
+        var formData = $(this).serialize() + '&_method=POST';
 
         $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
             url: $(this).prop('action'),
-            data: $(this).serialize(),
-            method: 'PUT'
+            data: formData,
+            //method: 'PUT'
         }).done(function() {
             console.log( "done" );
         });

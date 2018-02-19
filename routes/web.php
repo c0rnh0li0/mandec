@@ -25,6 +25,7 @@ Route::get('admin/elfinder', '\Barryvdh\Elfinder\ElfinderController@showPopup');
 Route::group(['prefix' => 'frontend', 'middleware' => ['web', 'adminAjax'], 'namespace' => 'Frontend'], function () {
     //dd("dies here");
     Route::resource('pagesectionwidget', 'PageSectionWidgetController');
+    //Route::any('pagesectionwidget', 'PageSectionWidgetController');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' => 'Admin'], function () {
