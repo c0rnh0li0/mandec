@@ -9,12 +9,10 @@
             <li><a href="#">+ Add page</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">+ Add widget</a>
-                <ul class="dropdown-menu">
-                    <li class="draggable-widgets">
-                        @foreach ($widgets as $widget)
-                            <div id="widget-{{ $widget->id }}" class="draggable-widgets">{{ $widget->name }}</div>
-                        @endforeach
-                    </li>
+                <ul class="dropdown-menu draggable-widgets">
+                @foreach ($widgets as $widget)
+                    <li id="widget-{{ $widget->id }}" class="draggable-widget">{{ $widget->name }}</li>
+                @endforeach
                 </ul>
             </li>
         </ul>

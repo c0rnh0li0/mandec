@@ -49,6 +49,6 @@ class PageTemplateSection extends Model
      */
     public function sectionwidgets()
     {
-        return $this->hasMany('App\Models\PageSectionWidget', 'template_section_id', 'template_section_id');
+        return $this->hasMany('App\Models\PageSectionWidget', 'template_section_id', 'template_section_id')->orderBy('order');
     }
 }

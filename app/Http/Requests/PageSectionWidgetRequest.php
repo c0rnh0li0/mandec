@@ -27,11 +27,12 @@ class PageSectionWidgetRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequ
      */
     public function rules()
     {
-        return [
+        return [];
+        /*return [
             'page_id' => 'required',
             'template_section_id' => 'required',
             'widget_id' => 'required',
-        ];
+        ];*/
     }
 
     /**

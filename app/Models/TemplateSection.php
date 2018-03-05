@@ -22,7 +22,7 @@ class TemplateSection extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     // protected $guarded = ['id'];
-    protected $fillable = ['name', 'html_name', 'template_id', 'created_by', 'updated_by'];
+    protected $fillable = ['name', 'html_name', 'css_classes', 'template_id', 'created_by', 'updated_by'];
     // protected $hidden = [];
     // protected $dates = [];
 

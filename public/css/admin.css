@@ -1,15 +1,18 @@
-.admin-menu {
-    background-color: #0d6aad;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-}
-
-.admin-menu li {
-    padding: 5px 10px 5px 10px;
-}
-
-.admin-menu li a{
-    color: #f0fafb;
-}
+.mandec-section { min-height: 200px; border: 2px dashed #3f729b; }
+.admin-menu { background-color: #0d6aad; position: fixed; left: 0; top: 0; width: 100%; }
+.wrapper { margin-top: 130px; }
+.admin-menu li { padding: 5px 10px 5px 10px; }
+.admin-menu li li:hover { background: #f0fafb; cursor: move; }
+.admin-menu li a{ color: #f0fafb; }
+.widget-content { position: relative; }
+.widget-content.ui-sortable-helper { border: 3px dashed #fff; width: 100%; }
+.widget-content .widget-menu { position: absolute; top: 0; right: 5px; background: rgba(255, 255, 255, 1) !important; display: none; }
+.widget-content:hover .widget-menu { display: inline-block; }
+.widget-content .widget-menu ul { list-style: none; }
+.widget-content .widget-menu ul li { position: relative; float: right; background-color: #f00; margin: 5px; }
+.widget-content:hover .widget-menu .widget-menu-buttons { position: relative; float: right; background-color: #fff !important; }
+.widget-content:hover .widget-menu .widget-menu-buttons a { color: white !important; padding: 20px; }
+span.admin-icon-box { padding: 20px; }
+span.admin-icon-box i { display: inline-block; line-height: 1; font-size: 20px; transition: 0.3s; color: #fff; }
+span.error-notify { font-size: 12px; }
+a.navbar-brand { color: #fff; padding: 7px 0 0 0; }

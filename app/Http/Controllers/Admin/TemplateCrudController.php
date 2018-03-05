@@ -87,6 +87,7 @@ class TemplateCrudController extends CrudController
                 'entity_singular' => 'section', // used on the "Add X" button
                 'columns' => [
                     'name' => 'Name',
+                    'css_classes' => 'CSS Classes'
                 ],
                 'max' => 5, // maximum rows allowed in the table
                 'min' => 0 // minimum rows allowed in the table
@@ -167,6 +168,7 @@ class TemplateCrudController extends CrudController
                 $existing_template = TemplateSection::find($section->id);
                 if ($existing_template) {
                     $existing_template->name = $section->name;
+                    $existing_template->css_classes = $section->css_classes;
                     $existing_template->template_id = $template_id;
                     $existing_template->created_by = auth()->user()->id;
                     $existing_template->updated_by = auth()->user()->id;
@@ -179,6 +181,7 @@ class TemplateCrudController extends CrudController
                 if (isset($section->name)) {
                     $ts = new TemplateSection();
                     $ts->name = $section->name;
+                    $existing_template->css_classes = $section->css_classes;
                     $ts->template_id = $template_id;
                     $ts->created_by = auth()->user()->id;
                     $ts->updated_by = auth()->user()->id;

@@ -13,7 +13,7 @@
 
                 <!-- logo -->
                 <h1 class="navbar-brand">
-                    <a href="#body"><img src="img/logo.png" height="40" width="164" alt=""></a>
+                    <a href="/"><img src="img/logo.png" height="40" width="164" alt=""></a>
                 </h1>
                 <!-- /logo -->
             </div>

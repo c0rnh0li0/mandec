@@ -223,13 +223,13 @@ header .navbar {
 /* =================
    Home page style
    ================= */
-#banner {
+.banner {
   background: url('../img/banner.jpg');
   background-size: cover;
   padding: 250px 0;
   position: relative;
-}
-#banner:before {
+}/*
+.banner:before {
   position: absolute;
   z-index: 99;
   background: rgba(0, 0, 0, 0.73);
@@ -238,24 +238,24 @@ header .navbar {
   right: 0;
   bottom: 0;
   content: '';
-}
-#banner .block {
+}*/
+.banner .block {
   position: relative;
   z-index: 999;
   color: #fff;
 }
-#banner .block h1 {
+.banner .block h1 {
   padding-bottom: 25px;
   font-size: 55px;
   font-weight: 100;
   color: #80d6a3;
 }
-#banner .block h2 {
+.banner .block h2 {
   font-size: 18px;
   line-height: 30px;
   font-weight: 300;
 }
-#banner .block .btn-learn {
+.banner .block .btn-learn {
   border: 1px solid #fff;
   color: #fff;
   border-radius: 25px;
@@ -264,22 +264,22 @@ header .navbar {
   font-size: 14px;
   transition: 0.3s;
 }
-#banner .block .btn-learn:hover {
+.banner .block .btn-learn:hover {
   border-color: #80d6a3;
   color: #80d6a3;
 }
-#banner .block .buttons {
+.banner .block .buttons {
   margin-top: 40px;
 }
-#banner .block .buttons a:first-child {
+.banner .block .buttons a:first-child {
   margin-left: 0;
 }
-#banner .scrolldown {
+.banner .scrolldown {
   position: absolute;
   left: 50%;
   bottom: 18%;
 }
-#banner .scrolldown .scroll {
+.banner .scrolldown .scroll {
   border-radius: 100px;
   width: 25px;
   height: 45px;
@@ -290,7 +290,7 @@ header .navbar {
   border: 1px solid #fff;
   z-index: 99;
 }
-#banner .scrolldown .scroll:after {
+.banner .scrolldown .scroll:after {
   background: #fff;
   border-radius: 300px;
   width: 4px;

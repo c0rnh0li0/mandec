@@ -24,7 +24,12 @@ Route::get('admin/elfinder', '\Barryvdh\Elfinder\ElfinderController@showPopup');
 
 Route::group(['prefix' => 'frontend', 'middleware' => ['web', 'adminAjax'], 'namespace' => 'Frontend'], function () {
     //dd("dies here");
+    Route::get('pagesectionwidget/show/{widget}', 'PageSectionWidgetController@show');
+    Route::post('pagesectionwidget/sort', 'PageSectionWidgetController@sort');
+    Route::delete('pagesectionwidget/{widget}', array('uses' => 'PageSectionWidgetController@delete'));
+
     Route::resource('pagesectionwidget', 'PageSectionWidgetController');
+
     //Route::any('pagesectionwidget', 'PageSectionWidgetController');
 });
 
