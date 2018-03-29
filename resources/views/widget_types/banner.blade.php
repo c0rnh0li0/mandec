@@ -29,7 +29,7 @@
     <!-- </form> -->
     {!! Form::close() !!}
 @else
-    <section id="sectionwidget_{{ $id }}" class="banner widget-content" style="background: url(../{{ $data->image }});">
+    <section id="sectionwidget_{{ $id }}" class="banner widget-content" style="background: url(../{{ $data->image }}); background-size: cover;">
         @hasrole('Admin')
         <div class="widget-menu">
             <div class="widget-menu-buttons">

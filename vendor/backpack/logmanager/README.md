@@ -12,7 +12,7 @@ An interface to preview, download and delete Laravel log files.
 
 
 > ### Security updates and breaking changes
-> Please **[subscribe to the Backpack Newsletter](http://eepurl.com/bUEGjf)** so you can find out about any security updates, breaking changes or major features. We send an email every 1-2 months.
+> Please **[subscribe to the Backpack Newsletter](http://backpackforlaravel.com/newsletter)** so you can find out about any security updates, breaking changes or major features. We send an email every 1-2 months.
 
 ## Install
 
@@ -22,7 +22,7 @@ An interface to preview, download and delete Laravel log files.
 $ composer require backpack/logmanager
 ```
 
-2) Then add the service provider to your config/app.php file:
+2) For Laravel <5.5 apps, add the service provider to your config/app.php file:
 
 ```
     Backpack\LogManager\LogManagerServiceProvider::class,
@@ -49,13 +49,7 @@ or directly in your config/app.php file:
     'log' => env('APP_LOG', 'daily'),
 ```
 
-5) [Optional] Publish the lang files if you think you'll need to modify them.
-
-```bash
-    php artisan vendor:publish --provider="Backpack\LogManager\LogManagerServiceProvider"
-```
-
-6) [optional] Add a menu item for it in resources/views/vendor/backpack/base/inc/sidebar.blade.php or menu.blade.php:
+5) [optional] Add a menu item for it in resources/views/vendor/backpack/base/inc/sidebar.blade.php or menu.blade.php:
 
 ```html
 <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/log') }}"><i class="fa fa-terminal"></i> <span>Logs</span></a></li>
@@ -92,7 +86,7 @@ If you need to modify how this works in a project:
 
 If you discover any security related issues, please email :author_email instead of using the issue tracker.
 
-Please **[subscribe to the Backpack Newsletter](http://eepurl.com/bUEGjf)** so you can find out about any security updates, breaking changes or major features. We send an email every 1-2 months.
+Please **[subscribe to the Backpack Newsletter](http://backpackforlaravel.com/newsletter)** so you can find out about any security updates, breaking changes or major features. We send an email every 1-2 months.
 
 ## Credits
 

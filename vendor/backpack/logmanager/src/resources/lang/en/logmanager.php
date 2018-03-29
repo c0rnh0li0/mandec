@@ -20,6 +20,7 @@ return [
       'download'                    => 'Download',
       'delete_error_title'          => 'Error',
       'existing_logs'               => 'Existing logs',
+      'file_name'                   => 'File name',
       'file_size'                   => 'File size',
       'delete_cancel_title'         => 'It&#039;s ok',
       'last_modified'               => 'Last modified',

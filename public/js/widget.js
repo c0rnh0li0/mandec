@@ -9,7 +9,7 @@ var MCWidget = {
     sortables: function () {
         $('.mandec-section').sortable({
             connectWith: ".mandec-section",
-            items: "> section.banner",
+            items: "> section.widget-content",
             handle: ".widget-sort",
             revert: false,
             cursor: "move",
@@ -44,7 +44,7 @@ var MCWidget = {
             var method = "POST";
             var data = '?_token=' + $('meta[name=_token]').attr('content') +
                 '&' + $(list).sortable( "serialize", { key: "sort[]" } ) +
-                '&count=' + $(list).closest('.mandec-section').find('section.banner').length +
+                '&count=' + $(list).closest('.mandec-section').find('section.widget-content').length +
                 '&section=' + $(list).closest('.mandec-section').attr('data-section') +
                 '&page=' + $(list).closest('.mandec-section').attr('data-page');
 

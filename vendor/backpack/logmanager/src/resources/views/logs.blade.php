@@ -21,6 +21,7 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>{{ trans('backpack::logmanager.file_name') }}</th>
             <th>{{ trans('backpack::logmanager.date') }}</th>
             <th>{{ trans('backpack::logmanager.last_modified') }}</th>
             <th class="text-right">{{ trans('backpack::logmanager.file_size') }}</th>
@@ -28,16 +29,17 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($logs as $k => $log)
+          @foreach ($files as $key => $file)
           <tr>
-            <th scope="row">{{ $k+1 }}</th>
-            <td>{{ \Carbon\Carbon::createFromTimeStamp($log['last_modified'])->formatLocalized('%d %B %Y') }}</td>
-            <td>{{ \Carbon\Carbon::createFromTimeStamp($log['last_modified'])->formatLocalized('%H:%M') }}</td>
-            <td class="text-right">{{ round((int)$log['file_size']/1048576, 2).' MB' }}</td>
+            <th scope="row">{{ $key + 1 }}</th>
+            <td>{{ $file['file_name'] }}</td>
+            <td>{{ \Carbon\Carbon::createFromTimeStamp($file['last_modified'])->formatLocalized('%d %B %Y') }}</td>
+            <td>{{ \Carbon\Carbon::createFromTimeStamp($file['last_modified'])->formatLocalized('%H:%M') }}</td>
+            <td class="text-right">{{ round((int)$file['file_size']/1048576, 2).' MB' }}</td>
             <td>
-                <a class="btn btn-xs btn-default" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/preview/'.$log['file_name']) }}"><i class="fa fa-eye"></i> {{ trans('backpack::logmanager.preview') }}</a>
-                <a class="btn btn-xs btn-default" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/download/'.$log['file_name']) }}"><i class="fa fa-cloud-download"></i> {{ trans('backpack::logmanager.download') }}</a>
-                <a class="btn btn-xs btn-danger" data-button-type="delete" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/delete/'.$log['file_name']) }}"><i class="fa fa-trash-o"></i> {{ trans('backpack::logmanager.delete') }}</a>
+                <a class="btn btn-xs btn-default" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/preview/'. base64_encode($file['file_name'])) }}"><i class="fa fa-eye"></i> {{ trans('backpack::logmanager.preview') }}</a>
+                <a class="btn btn-xs btn-default" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/download/'.base64_encode($file['file_name'])) }}"><i class="fa fa-cloud-download"></i> {{ trans('backpack::logmanager.download') }}</a>
+                <a class="btn btn-xs btn-danger" data-button-type="delete" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/delete/'.base64_encode($file['file_name'])) }}"><i class="fa fa-trash-o"></i> {{ trans('backpack::logmanager.delete') }}</a>
             </td>
           </tr>
           @endforeach

@@ -21,6 +21,7 @@ return [
       'download'                    => 'Hent',
       'delete_error_title'          => 'Fejl',
       'existing_logs'               => 'Eksisterende log filer',
+      'file_name'                   => 'Filnavn',
       'file_size'                   => 'Fil størrelse',
       'delete_cancel_title'         => 'annuller',
       'last_modified'               => 'Sidst ændret',

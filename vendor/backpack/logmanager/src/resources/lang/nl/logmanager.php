@@ -20,6 +20,7 @@ return [
       'download'                    => 'Download',
       'delete_error_title'          => 'Fout',
       'existing_logs'               => 'Bestaande logs',
+      'file_name'                   => 'Bestandsnaam',
       'file_size'                   => 'Bestandsgrootte',
       'delete_cancel_title'         => 'Alles veilig',
       'last_modified'               => 'Laatst gewijzigd',

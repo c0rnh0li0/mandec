@@ -4,7 +4,10 @@
 ROOT_URL = window.location.protocol + '//' + window.location.host;
 
 $.ajaxSetup({
-    headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+    headers: {
+        'X-CSRF-Token' : $('meta[name=_token]').attr('content')
+    }
+    //{ 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
 });
 $(document).ajaxError(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
     /*if (typeof xhr.responseJSON != 'undefined')

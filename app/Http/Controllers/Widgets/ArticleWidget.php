@@ -18,21 +18,58 @@ class ArticleWidget extends CrudController
         $this->crud->setEntityNameStrings('pagesectionwidget', 'pagesectionwidgets');
 
         $this->crud->addFields([
-            [
-                'name' => 'title',
-                'label' => 'Title text'
-            ],
-            [
-                'name' => 'subtitle',
-                'label' => 'Subtitle'
-            ],
-            [
-                'name' => 'image',
-                'label' => 'Image',
-                'type' => 'browse',
-            ],
-        ], 'update/create/both');
+                [    // TEXT
+                    'name' => 'title',
+                    'label' => 'Title',
+                    'type' => 'text',
+                    'placeholder' => 'Your title here',
+                ], [
+                    'name' => 'slug',
+                    'label' => 'Slug (URL)',
+                    'type' => 'text',
+                    'hint' => 'Will be automatically generated from your title, if left empty.',
+                    // 'disabled' => 'disabled'
+                ], [    // TEXT
+                    'name' => 'date',
+                    'label' => 'Date',
+                    'type' => 'date',
+                    'value' => date('Y-m-d'),
+                ], [    // WYSIWYG
+                    'name' => 'content',
+                    'label' => 'Content',
+                    'type' => 'ckeditor',
+                    'placeholder' => 'Your textarea text here',
+                ], [    // Image
+                    'name' => 'image',
+                    'label' => 'Image',
+                    'type' => 'browse',
+                ], [    // SELECT
+                    'label' => 'Category',
+                    'type' => 'select2',
+                    'name' => 'category_id',
+                    'entity' => 'category',
+                    'attribute' => 'name',
+                    'model' => "Backpack\NewsCRUD\app\Models\Category",
+                ], [       // Select2Multiple = n-n relationship (with pivot table)
+                    'label' => 'Tags',
+                    'type' => 'select2_multiple',
+                    'name' => 'tags', // the method that defines the relationship in your Model
+                    'entity' => 'tags', // the method that defines the relationship in your Model
+                    'attribute' => 'name', // foreign key attribute that is shown to user
+                    'model' => "Backpack\NewsCRUD\app\Models\Tag", // foreign key model
+                    'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+                ], [    // ENUM
+                    'name' => 'status',
+                    'label' => 'Status',
+                    'type' => 'enum',
+                ], [    // CHECKBOX
+                    'name' => 'featured',
+                    'label' => 'Featured item',
+                    'type' => 'checkbox',
+                ],
+            ], 'update/create/both');
     }
+
     public function create()
     {
         //$this->crud->hasAccessOrFail('create');

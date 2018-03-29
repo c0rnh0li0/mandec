@@ -2,35 +2,19 @@
 
 namespace Backpack\LogManager\app\Http\Controllers;
 
+use Backpack\LogManager\app\Classes\LogViewer;
 use Illuminate\Routing\Controller;
-use Storage;
 
 class LogController extends Controller
 {
     /**
      * Lists all log files.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $disk = Storage::disk('storage');
-        $files = $disk->files('logs');
-        $this->data['logs'] = [];
-
-        // make an array of log files, with their filesize and creation date
-        foreach ($files as $k => $f) {
-            // only take the zip files into account
-            if (substr($f, -4) == '.log' && $disk->exists($f)) {
-                $this->data['logs'][] = [
-                                            'file_path'     => $f,
-                                            'file_name'     => str_replace('logs/', '', $f),
-                                            'file_size'     => $disk->size($f),
-                                            'last_modified' => $disk->lastModified($f),
-                                            ];
-            }
-        }
-
-        // reverse the logs, so the newest one would be on top
-        $this->data['logs'] = array_reverse($this->data['logs']);
+        $this->data['files'] = LogViewer::getFiles(true);
         $this->data['title'] = trans('backpack::logmanager.log_manager');
 
         return view('logmanager::logs', $this->data);
@@ -39,59 +23,54 @@ class LogController extends Controller
     /**
      * Previews a log file.
      *
-     * TODO: make it work no matter the flysystem driver (S3 Bucket, etc).
+     * @throws \Exception
      */
     public function preview($file_name)
     {
-        $disk = Storage::disk('storage');
+        LogViewer::setFile(base64_decode($file_name));
 
-        if ($disk->exists('logs/'.$file_name)) {
-            $this->data['log'] = [
-                                    'file_path'     => 'logs/'.$file_name,
-                                    'file_name'     => $file_name,
-                                    'file_size'     => $disk->size('logs/'.$file_name),
-                                    'last_modified' => $disk->lastModified('logs/'.$file_name),
-                                    'content'       => $disk->get('logs/'.$file_name),
-                                    ];
-            $this->data['title'] = trans('backpack::logmanager.preview').' '.trans('backpack::logmanager.logs');
+        $logs = LogViewer::all();
 
-            return view('logmanager::log_item', $this->data);
-        } else {
+        if (count($logs) <= 0) {
             abort(404, trans('backpack::logmanager.log_file_doesnt_exist'));
         }
+
+        $this->data['logs'] = $logs;
+        $this->data['title'] = trans('backpack::logmanager.preview').' '.trans('backpack::logmanager.logs');
+        $this->data['file_name'] = base64_decode($file_name);
+
+        return view('logmanager::log_item', $this->data);
     }
 
     /**
      * Downloads a log file.
      *
-     * TODO: make it work no matter the flysystem driver (S3 Bucket, etc).
+     * @param $file_name
+     *
+     * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function download($file_name)
     {
-        $disk = Storage::disk('storage');
-
-        if ($disk->exists('logs/'.$file_name)) {
-            return response()->download(storage_path('logs/'.$file_name));
-        } else {
-            abort(404, trans('backpack::logmanager.log_file_doesnt_exist'));
-        }
+        return response()->download(LogViewer::pathToLogFile(base64_decode($file_name)));
     }
 
     /**
      * Deletes a log file.
      *
-     * TODO: make it work no matter the flysystem driver (S3 Bucket, etc).
+     * @param $file_name
+     *
+     * @throws \Exception
+     *
+     * @return string
      */
     public function delete($file_name)
     {
-        $disk = Storage::disk('storage');
-
-        if ($disk->exists('logs/'.$file_name)) {
-            $disk->delete('logs/'.$file_name);
-
+        if (app('files')->delete(LogViewer::pathToLogFile(base64_decode($file_name)))) {
             return 'success';
-        } else {
-            abort(404, trans('backpack::logmanager.log_file_doesnt_exist'));
         }
+
+        abort(404, trans('backpack::logmanager.log_file_doesnt_exist'));
     }
 }

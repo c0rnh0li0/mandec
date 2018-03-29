@@ -23,7 +23,10 @@
  *				'targetType'     => IMG_GIF|IMG_JPG|IMG_PNG|IMG_WBMP, // Target image formats ( bit-field )
  *				'targetMinPixel' => 200,        // Target image minimum pixel size
  *				'interlace'      => IMG_GIF|IMG_JPG, // Set interlacebit image formats ( bit-field )
- *				'offDropWith'    => null        // To disable it if it is dropped with pressing the meta key
+ *				'offDropWith'    => null,       // Enabled by default. To disable it if it is dropped with pressing the meta key
+ *				                                // Alt: 8, Ctrl: 4, Meta: 2, Shift: 1 - sum of each value
+ *				                                // In case of using any key, specify it as an array
+ *				'onDropWith'     => null        // Disabled by default. To enable it if it is dropped with pressing the meta key
  *				                                // Alt: 8, Ctrl: 4, Meta: 2, Shift: 1 - sum of each value
  *				                                // In case of using any key, specify it as an array
  *			)
@@ -45,7 +48,10 @@
  *						'targetType'     => IMG_GIF|IMG_JPG|IMG_PNG|IMG_WBMP, // Target image formats ( bit-field )
  *						'targetMinPixel' => 200,        // Target image minimum pixel size
  *						'interlace'      => IMG_GIF|IMG_JPG, // Set interlacebit image formats ( bit-field )
- *						'offDropWith'    => null        // To disable it if it is dropped with pressing the meta key
+ *        				'offDropWith'    => null,       // Enabled by default. To disable it if it is dropped with pressing the meta key
+ *        				                                // Alt: 8, Ctrl: 4, Meta: 2, Shift: 1 - sum of each value
+ *        				                                // In case of using any key, specify it as an array
+ *        				'onDropWith'     => null        // Disabled by default. To enable it if it is dropped with pressing the meta key
  *						                                // Alt: 8, Ctrl: 4, Meta: 2, Shift: 1 - sum of each value
  *						                                // In case of using any key, specify it as an array
  *					)
@@ -166,13 +172,14 @@ class elFinderPluginWatermark extends elFinderPlugin {
 		if (class_exists('Imagick', false)) {
 			return $this->watermarkPrint_imagick($src, $watermark, $dest_x, $dest_y, $quality, $transparency, $watermarkImgInfo, $opts);
 		} else {
+			elFinder::expandMemoryForGD(array($watermarkImgInfo, $srcImgInfo));
 			return $this->watermarkPrint_gd($src, $watermark, $dest_x, $dest_y, $quality, $transparency, $watermarkImgInfo, $srcImgInfo, $opts);
 		}
 	}
 	
 	private function watermarkPrint_imagick($src, $watermark, $dest_x, $dest_y, $quality, $transparency, $watermarkImgInfo, $opts) {
 		
-		try { throw new Exception("Error Processing Request", 1);
+		try {
 		
 			// Open the original image
 			$img = new Imagick($src);
@@ -216,7 +223,7 @@ class elFinderPluginWatermark extends elFinderPlugin {
 		
 		$watermark_width = $watermarkImgInfo[0];
 		$watermark_height = $watermarkImgInfo[1];
-				
+
 		$ermsg = '';
 		switch ($watermarkImgInfo['mime']) {
 			case 'image/gif':

@@ -20,6 +20,7 @@ return [
       'download'                    => '下载',
       'delete_error_title'          => '错误',
       'existing_logs'               => '日志已存在',
+      'file_name'                   => '文件名',
       'file_size'                   => '文件大小',
       'delete_cancel_title'         => '一切OK',
       'last_modified'               => '上次修改',

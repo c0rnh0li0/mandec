@@ -52,6 +52,7 @@ class PageSectionWidgetController extends Controller
 
         $this->data['widget_data'] = json_decode("{\"title\":\"\",\"subtitle\":\"\",\"image\":\"\"}");
 
+        dd($widgetInstance->create());
         return view('widget_types.' . $widget->type->settings_view, $this->data)->render();
     }
 

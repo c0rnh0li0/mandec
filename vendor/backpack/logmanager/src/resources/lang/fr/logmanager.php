@@ -20,6 +20,7 @@ return [
       'download'                    => 'Télécharger',
       'delete_error_title'          => 'Erreur',
       'existing_logs'               => 'Journaux existants',
+      'file_name'                   => 'Nom de fichier',
       'file_size'                   => 'Taille',
       'delete_cancel_title'         => 'Annulation',
       'last_modified'               => 'Dernière modification',

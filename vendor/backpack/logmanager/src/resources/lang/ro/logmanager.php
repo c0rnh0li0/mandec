@@ -20,6 +20,7 @@ return [
       'download'                    => 'Descarcă',
       'delete_error_title'          => 'Eroare',
       'existing_logs'               => 'Istorice existente',
+      'file_name'                   => 'Nume de fișier',
       'file_size'                   => 'Mărime fișier',
       'delete_cancel_title'         => 'E ok',
       'last_modified'               => 'Ultima modificare',

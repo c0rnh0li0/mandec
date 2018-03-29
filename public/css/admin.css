@@ -6,7 +6,7 @@
 .admin-menu li a{ color: #f0fafb; }
 .widget-content { position: relative; }
 .widget-content.ui-sortable-helper { border: 3px dashed #fff; width: 100%; }
-.widget-content .widget-menu { position: absolute; top: 0; right: 5px; background: rgba(255, 255, 255, 1) !important; display: none; }
+.widget-content .widget-menu { position: absolute; top: 0; right: 5px; background: rgba(255, 255, 255, 1) !important; display: none;  z-index: 9999; }
 .widget-content:hover .widget-menu { display: inline-block; }
 .widget-content .widget-menu ul { list-style: none; }
 .widget-content .widget-menu ul li { position: relative; float: right; background-color: #f00; margin: 5px; }
